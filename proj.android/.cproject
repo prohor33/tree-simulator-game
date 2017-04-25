@@ -171,14 +171,14 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="tree-simulator-game2.null.31159645" name="tree-simulator-game2"/>
+		<project id="tree-simulator-game.null.31159645" name="tree-simulator-game"/>
 	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
-			<resource resourceType="PROJECT" workspacePath="/tree-simulator-game2"/>
+			<resource resourceType="PROJECT" workspacePath="/tree-simulator-game"/>
 		</configuration>
 		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/tree-simulator-game2"/>
+			<resource resourceType="PROJECT" workspacePath="/tree-simulator-game"/>
 		</configuration>
 	</storageModule>
 </cproject>
