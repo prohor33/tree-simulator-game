@@ -117,6 +117,9 @@ include_directories(
   ${COCOS2D_ROOT}/cocos/platform
   ${COCOS2D_ROOT}/cocos/audio/include/
   Classes
+  Classes/Scenes
+  Classes/TreeModel
+  Classes/Visualizers
 )
 if ( WIN32 )
   include_directories(

@@ -1,22 +1,16 @@
-#include "HelloWorldScene.h"
+#include "stdafx.h"
+#include "MeadowScene.h"
 #include "SimpleAudioEngine.h"
+#include "TreeVisu.h"
+#include "Tree.h"
 
-USING_NS_CC;
-
-Scene* HelloWorld::createScene()
-{
-    return HelloWorld::create();
+Scene* MeadowScene::CreateScene(const Tree& tree) {
+    MeadowScene* scene = MeadowScene::create();
+    scene->Build(tree);
+    return scene;
 }
 
-// on "init" you need to initialize your instance
-bool HelloWorld::init()
-{
-    //////////////////////////////
-    // 1. super init first
-    if ( !Scene::init() )
-    {
-        return false;
-    }
+void MeadowScene::Build(const Tree& tree) {
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -29,7 +23,7 @@ bool HelloWorld::init()
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+                                           CC_CALLBACK_1(MeadowScene::MenuCloseCallback, this));
     
     closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
@@ -45,7 +39,7 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("TR Demo", "fonts/Marker Felt.ttf", 24);
     
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
@@ -63,11 +57,12 @@ bool HelloWorld::init()
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
     
-    return true;
+    TreeVisu tree_visu(tree);
+    this->addChild(tree_visu.root(), 1);
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void MeadowScene::MenuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
