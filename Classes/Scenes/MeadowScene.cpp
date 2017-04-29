@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "MeadowScene.h"
 #include "SimpleAudioEngine.h"
-#include "TreeVisu.h"
-#include "Tree.h"
+#include "../Visualizers/TreeVisu.h"
+#include "../TreeModel/Tree.h"
 
 Scene* MeadowScene::CreateScene(const Tree& tree) {
     MeadowScene* scene = MeadowScene::create();

@@ -10,6 +10,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scenes">
+      <UniqueIdentifier>{1318fbd4-f435-4163-9a69-7fc7aba999e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tree_model">
+      <UniqueIdentifier>{afef1c45-6b23-4195-a759-21a419cf5b44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="visualizers">
+      <UniqueIdentifier>{8c5270db-eb31-42a5-9fc2-87cf7b114992}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,8 +27,17 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+    <ClCompile Include="..\Classes\Game.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\MeadowScene.cpp">
+      <Filter>scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TreeModel\Tree.cpp">
+      <Filter>tree_model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\TreeVisu.cpp">
+      <Filter>visualizers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,8 +47,17 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
+    <ClInclude Include="..\Classes\Game.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\MeadowScene.h">
+      <Filter>scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TreeModel\Tree.h">
+      <Filter>tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\TreeVisu.h">
+      <Filter>visualizers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
