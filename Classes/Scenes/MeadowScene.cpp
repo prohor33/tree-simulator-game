@@ -57,8 +57,23 @@ void MeadowScene::Build(const Tree& tree) {
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
     
-    TreeVisu tree_visu(tree);
-    this->addChild(tree_visu.root(), 1);
+    
+    
+    Size w_size = Director::getInstance()->getVisibleSize();
+    Vec2 w_origin = Director::getInstance()->getVisibleOrigin();
+    
+    // трава
+    DrawNode* draw_node = DrawNode::create();
+    this->addChild(draw_node);
+    const float grass_h = w_size.height / 10.f;
+    Size grass_size(w_size.width, grass_h);
+    draw_node->drawSolidRect(w_origin, w_origin + grass_size, Color4F::GREEN);
+
+    Vec2 tree_p = w_origin + Vec2(w_size.width / 2.f, grass_h);
+    
+    auto tree_visu = TreeVisu::CreateLayer(tree);
+    tree_visu->setPosition(tree_p);
+    this->addChild(tree_visu, 1);
 }
 
 

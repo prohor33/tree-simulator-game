@@ -1,12 +1,20 @@
 #pragma once
 #include "../TreeModel/Tree.h"
 
-class TreeVisu {
+class TreeVisu : public Layer {
 public:
-    TreeVisu(const Tree& tree);
+    static Layer* CreateLayer(const Tree& tree);
+    virtual bool init() override;
+    CREATE_FUNC(TreeVisu);
     
-    Node* root();
+    void update(float) override;
     
 private:
-    DrawNode* root_;
+    void Build(const Tree& tree);
+    void DrawGrowButtons(float delta);
+    
+    DrawNode* draw_node_;   // рисованное дерево
+    Node* gui_root_;        // кнопочки на дереве
+    Node* grow_buttons_;
+    Tree tree_;
 };

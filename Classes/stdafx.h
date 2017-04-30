@@ -18,3 +18,10 @@
 #else
 #define MOBILE
 #endif
+
+
+typedef std::function<void(cocos2d::Node* node)> OnClickF;
+typedef std::function<void(cocos2d::Node* node, cocos2d::Point p)> OnClickLocationF;
+typedef std::function<void(cocos2d::ui::Button* node)> OnClickButtonF;
+typedef std::function<void(cocos2d::Touch* touch, cocos2d::Event* event)> OnMoveF;
+typedef std::function<void(bool ok)> OnResult;
