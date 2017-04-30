@@ -27,9 +27,12 @@ void TreeVisu::Build(const Tree& tree) {
     addChild(draw_node_);
     gui_root_ = Node::create();
     addChild(gui_root_);
+    
     grow_buttons_ = Node::create();
     gui_root_->addChild(grow_buttons_);
-
+    
+    top_level_gui_ = Node::create();
+    gui_root_->addChild(top_level_gui_);
 }
 
 void TreeVisu::update(float delta){
@@ -44,27 +47,75 @@ void TreeVisu::update(float delta){
     DrawGrowButtons(delta);
 }
 
+// рисует кнопки в точках возможного роста
 void TreeVisu::DrawGrowButtons(float delta) {
-    // пока перерисоываем при изменении количества, потом надо будет подумать
-    if (grow_buttons_->getChildrenCount() == tree_.grow_points().size())
-        return;
     
-    grow_buttons_->removeAllChildren();
-    
-    // рисуем кнопки в точках возможного роста
-    for (auto& p : tree_.grow_points()) {
-        
+    while (grow_buttons_->getChildrenCount() > tree_.grow_points().size()) {
+        // удаляем лишние
+        grow_buttons_->removeChild(grow_buttons_->getChildren().at(0));
+    }
+    while (grow_buttons_->getChildrenCount() < tree_.grow_points().size()) {
+        // добавляем недостающие
         auto btn = Button::create("tree_icons/plus.png");
         btn->setTouchEnabled(true);
-        btn->setPosition(p);
+        
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
-            
-            tree_.add_segment(std::make_pair(node->getPosition(), node->getPosition() + Vec2(rand() % 10 > 5 ? 80 : -80, 100)));
+            GrowButtonOnClick(node->getPosition(), node->getContentSize());
         }, 1.1f);
         
         grow_buttons_->addChild(btn);
     }
+    
+    size_t i = 0;
+    for (auto& p : tree_.grow_points()) {
+        CC_ASSERT(i < grow_buttons_->getChildren().size());
+        grow_buttons_->getChildren().at(i)->setPosition(p);
+        i++;
+    }
+}
+
+void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
+    top_level_gui_->removeAllChildren();
+    
+    const float shift_vert = 10.f;
+    const float padding = 5.f;
+    
+    DrawNode* back_node = DrawNode::create();
+    top_level_gui_->addChild(back_node);
+    Vec2 back_origin, back_dest;
+    
+    {
+        auto btn = Button::create("tree_icons/branch.png");
+        btn->setTouchEnabled(true);
+        Vec2 btn_p = src_pos + Vec2(0.f, src_size.height / 2.f);
+        btn_p += Vec2(padding, shift_vert) + btn->getContentSize() / 2.f;
+        btn->setPosition(btn_p);
+        back_dest = btn_p + btn->getContentSize() / 2.f  + Vec2(padding, padding);
+        
+        visu_utils::AddOnClickListener(btn, [=] (Button* node) {
+            
+        }, 1.1f);
+        
+        top_level_gui_->addChild(btn);
+    }
+    
+    {
+        auto btn = Button::create("tree_icons/leaf.png");
+        btn->setTouchEnabled(true);
+        Vec2 btn_p = src_pos + Vec2(0.f, src_size.height / 2.f);
+        btn_p += Vec2(-padding - btn->getContentSize().width / 2.f, shift_vert + btn->getContentSize().height / 2.f);
+        btn->setPosition(btn_p);
+        back_origin = btn_p - btn->getContentSize() / 2.f - Vec2(padding, padding);
+        
+        visu_utils::AddOnClickListener(btn, [=] (Button* node) {
+            
+        }, 1.1f);
+        
+        top_level_gui_->addChild(btn);
+    }
+    
+    back_node->drawSolidRect(back_origin, back_dest, Color4F::WHITE);
 }
 
 //// вызывается при клике на плюсик добавления новой ветки
