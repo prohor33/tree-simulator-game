@@ -18,3 +18,12 @@ std::vector<Vec2> Tree::grow_points() const {
         grow_points.push_back(s.second);
     return grow_points;
 }
+
+// листья
+const std::vector<Vec2>& Tree::leafs() const {
+    return leafs_;
+}
+
+void Tree::add_leaf(const Vec2& leaf) {
+    leafs_.push_back(leaf);
+}

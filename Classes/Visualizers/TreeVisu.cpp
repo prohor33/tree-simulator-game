@@ -25,6 +25,10 @@ void TreeVisu::Build(const Tree& tree) {
     
     draw_node_ = DrawNode::create();
     addChild(draw_node_);
+    
+    leafs_ = Node::create();
+    addChild(leafs_);
+    
     gui_root_ = Node::create();
     addChild(gui_root_);
     
@@ -44,7 +48,29 @@ void TreeVisu::update(float delta){
     for (auto& s : tree_.segments())
         draw_node_->drawSegment(s.first, s.second, 10, Color4F::ORANGE);
     
+    DrawLeafs(delta);
+    
     DrawGrowButtons(delta);
+}
+
+void TreeVisu::DrawLeafs(float delta) {
+    while (leafs_->getChildrenCount() > tree_.leafs().size()) {
+        // удаляем лишние
+        leafs_->removeChild(leafs_->getChildren().at(0));
+    }
+    while (leafs_->getChildrenCount() < tree_.leafs().size()) {
+        // добавляем недостающие
+        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");        
+        leafs_->addChild(l);
+    }
+    
+    size_t i = 0;
+    for (auto& p : tree_.leafs()) {
+        CC_ASSERT(i < leafs_->getChildren().size());
+        auto leaf = leafs_->getChildren().at(i);
+        leaf->setPosition(p + leaf->getBoundingBox().size / 2.f);
+        i++;
+    }
 }
 
 // рисует кнопки в точках возможного роста
@@ -109,13 +135,18 @@ void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
         back_origin = btn_p - btn->getContentSize() / 2.f - Vec2(padding, padding);
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
-            
+            top_level_gui_->removeAllChildren();
+            OnAddLeaf(src_pos);
         }, 1.1f);
         
         top_level_gui_->addChild(btn);
     }
     
     back_node->drawSolidRect(back_origin, back_dest, Color4F::WHITE);
+}
+
+void TreeVisu::OnAddLeaf(const Vec2& pos) {
+    tree_.add_leaf(pos);
 }
 
 //// вызывается при клике на плюсик добавления новой ветки
