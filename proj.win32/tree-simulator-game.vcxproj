@@ -149,6 +149,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Scenes\MeadowScene.cpp" />
     <ClCompile Include="..\Classes\TreeModel\Tree.cpp" />
     <ClCompile Include="..\Classes\Visualizers\TreeVisu.cpp" />
+    <ClCompile Include="..\Classes\Visualizers\Utils.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Scenes\MeadowScene.h" />
     <ClInclude Include="..\Classes\TreeModel\Tree.h" />
     <ClInclude Include="..\Classes\Visualizers\TreeVisu.h" />
+    <ClInclude Include="..\Classes\Visualizers\Utils.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

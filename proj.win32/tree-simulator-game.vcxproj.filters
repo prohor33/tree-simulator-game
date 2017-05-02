@@ -39,6 +39,9 @@
     <ClCompile Include="..\Classes\Visualizers\TreeVisu.cpp">
       <Filter>visualizers</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\Utils.cpp">
+      <Filter>visualizers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -57,6 +60,9 @@
       <Filter>tree_model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Visualizers\TreeVisu.h">
+      <Filter>visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\Utils.h">
       <Filter>visualizers</Filter>
     </ClInclude>
   </ItemGroup>

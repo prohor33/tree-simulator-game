@@ -14,6 +14,15 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{a18967bc-4fa1-4c67-bf7e-3f9c8b6a1129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\tree-model">
+      <UniqueIdentifier>{63bb3adc-631b-47ab-9cb5-333498e01e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\visualizers">
+      <UniqueIdentifier>{a20f67cf-58c0-43aa-b422-aadf5a6d7716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\scenes">
+      <UniqueIdentifier>{94b6c3d1-4c88-4ec2-b551-e0e0b3106eac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml" />
@@ -31,7 +40,16 @@
     <ClCompile Include="..\..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\HelloWorldScene.cpp">
+    <ClCompile Include="..\..\Classes\TreeModel\Tree.cpp">
+      <Filter>Classes\tree-model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Visualizers\TreeVisu.cpp">
+      <Filter>Classes\visualizers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Scenes\MeadowScene.cpp">
+      <Filter>Classes\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Game.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -48,7 +66,16 @@
     <ClInclude Include="..\..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\HelloWorldScene.h">
+    <ClInclude Include="..\..\Classes\TreeModel\Tree.h">
+      <Filter>Classes\tree-model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Visualizers\TreeVisu.h">
+      <Filter>Classes\visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Scenes\MeadowScene.h">
+      <Filter>Classes\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Game.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,14 +86,15 @@
     <None Include="tree-simulator-game_TemporaryKey.pfx" />
     <None Include="$(AngleBinPath)libEGL.dll" />
     <None Include="$(AngleBinPath)libGLESv2.dll" />
-    <None Include="$(ZLibBinPath)zlib.dll" />
     <None Include="$(SQLiteBinPath)sqlite3.dll" />
-    <None Include="$(OggBinPath)libogg.dll" />
-    <None Include="$(OggBinPath)libvorbis.dll" />
-    <None Include="$(OggBinPath)libvorbisfile.dll" />
     <None Include="$(CurlBinPath)libcurl.dll" />
-    <None Include="$(CurlBinPath)libeay32.dll" />
-    <None Include="$(CurlBinPath)ssleay32.dll" />
+    <None Include="$(ZLibBinPath)zlib1.dll" />
+    <None Include="$(OpenSSLBinPath)libeay32.dll" />
+    <None Include="$(OpenSSLBinPath)ssleay32.dll" />
+    <None Include="$(OggBinPath)ogg.dll" />
+    <None Include="$(OggBinPath)vorbis.dll" />
+    <None Include="$(OggBinPath)vorbisfile.dll" />
+    <None Include="$(WebsocketsBinPath)websockets.dll" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Cocos2dEngine\OpenGLESPage.xaml">
