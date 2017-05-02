@@ -4,9 +4,9 @@
 using namespace cocos2d::ui;
 
 
-Layer* TreeVisu::CreateLayer(const Tree& tree) {
+Layer* TreeVisu::CreateLayer(TreeInterface tree_interface) {
     TreeVisu* layer = TreeVisu::create();
-    layer->Build(tree);
+    layer->Build(tree_interface);
     return layer;
 }
 
@@ -19,9 +19,9 @@ bool TreeVisu::init() {
     return true;
 }
 
-void TreeVisu::Build(const Tree& tree) {
+void TreeVisu::Build(TreeInterface tree_interface) {
     this->scheduleUpdate();
-    tree_ = tree;
+	tree_interface_ = tree_interface;
     
     draw_node_ = DrawNode::create();
     addChild(draw_node_);
@@ -45,7 +45,9 @@ void TreeVisu::update(float delta){
     draw_node_->clear();
     
     // рисуем ветки
-    for (auto& s : tree_.segments())
+	std::vector<std::pair<Vec2, Vec2>> segments;
+	tree_interface_.GetBranches(segments);
+    for (auto& s : segments)
         draw_node_->drawSegment(s.first, s.second, 10, Color4F::ORANGE);
     
     DrawLeafs(delta);
@@ -54,21 +56,23 @@ void TreeVisu::update(float delta){
 }
 
 void TreeVisu::DrawLeafs(float delta) {
-    while (leafs_->getChildrenCount() > tree_.leafs().size()) {
+	std::vector<std::pair<Vec2, Vec2>> local_leafs;
+	tree_interface_.GetLeafs(local_leafs);
+    while (leafs_->getChildrenCount() > local_leafs.size()) {
         // удаляем лишние
         leafs_->removeChild(leafs_->getChildren().at(0));
     }
-    while (leafs_->getChildrenCount() < tree_.leafs().size()) {
+    while (leafs_->getChildrenCount() < local_leafs.size()) {
         // добавляем недостающие
         auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");        
         leafs_->addChild(l);
     }
     
     size_t i = 0;
-    for (auto& p : tree_.leafs()) {
+    for (auto& p : local_leafs) {
         CC_ASSERT(i < leafs_->getChildren().size());
         auto leaf = leafs_->getChildren().at(i);
-        leaf->setPosition(p + leaf->getBoundingBox().size / 2.f);
+        leaf->setPosition(p.first + leaf->getBoundingBox().size / 2.f);
         i++;
     }
 }
@@ -76,11 +80,21 @@ void TreeVisu::DrawLeafs(float delta) {
 // рисует кнопки в точках возможного роста
 void TreeVisu::DrawGrowButtons(float delta) {
     
-    while (grow_buttons_->getChildrenCount() > tree_.grow_points().size()) {
+	std::vector<std::pair<Vec2, int>> grow_points;
+	tree_interface_.GetGrowPoints(grow_points);
+
+	// костыль, но иначе пока не поймем какой плюсик к какому элементу дерева относится
+	map_grows_to_id.clear();
+	for (const auto& grow_point : grow_points)
+	{
+		map_grows_to_id[grow_point.first] = grow_point.second;
+	}
+
+    while (grow_buttons_->getChildrenCount() > grow_points.size()) {
         // удаляем лишние
         grow_buttons_->removeChild(grow_buttons_->getChildren().at(0));
     }
-    while (grow_buttons_->getChildrenCount() < tree_.grow_points().size()) {
+    while (grow_buttons_->getChildrenCount() < grow_points.size()) {
         // добавляем недостающие
         auto btn = Button::create("tree_icons/plus.png");
         btn->setTouchEnabled(true);
@@ -94,9 +108,9 @@ void TreeVisu::DrawGrowButtons(float delta) {
     }
     
     size_t i = 0;
-    for (auto& p : tree_.grow_points()) {
+    for (auto& p : grow_points) {
         CC_ASSERT(i < grow_buttons_->getChildren().size());
-        grow_buttons_->getChildren().at(i)->setPosition(p);
+        grow_buttons_->getChildren().at(i)->setPosition(p.first);
         i++;
     }
 }
@@ -146,7 +160,11 @@ void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
 }
 
 void TreeVisu::OnAddLeaf(const Vec2& pos) {
-    tree_.add_leaf(pos);
+
+	auto found = map_grows_to_id.find(pos);
+	int new_id;
+	if (found != map_grows_to_id.end())
+		tree_interface_.AddLeaf(found->second, Vec2(0.f, 0.f), new_id);
 }
 
 //// вызывается при клике на плюсик добавления новой ветки

@@ -4,13 +4,13 @@
 #include "../Visualizers/TreeVisu.h"
 #include "../TreeModel/Tree.h"
 
-Scene* MeadowScene::CreateScene(const Tree& tree) {
+Scene* MeadowScene::CreateScene(TreeInterface tree_int) {
     MeadowScene* scene = MeadowScene::create();
-    scene->Build(tree);
+    scene->Build(tree_int);
     return scene;
 }
 
-void MeadowScene::Build(const Tree& tree) {
+void MeadowScene::Build(TreeInterface tree_int) {
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -71,7 +71,7 @@ void MeadowScene::Build(const Tree& tree) {
 
     Vec2 tree_p = w_origin + Vec2(w_size.width / 2.f, grass_h);
     
-    auto tree_visu = TreeVisu::CreateLayer(tree);
+    auto tree_visu = TreeVisu::CreateLayer(tree_int);
     tree_visu->setPosition(tree_p);
     this->addChild(tree_visu, 1);
 }
