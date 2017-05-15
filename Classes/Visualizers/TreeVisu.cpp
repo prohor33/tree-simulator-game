@@ -83,13 +83,6 @@ void TreeVisu::DrawGrowButtons(float delta) {
 	std::vector<std::pair<Vec2, int>> grow_points;
 	tree_interface_.GetGrowPoints(grow_points);
 
-	// костыль, но иначе пока не поймем какой плюсик к какому элементу дерева относится
-	map_grows_to_id.clear();
-	for (const auto& grow_point : grow_points)
-	{
-		map_grows_to_id[grow_point.first] = grow_point.second;
-	}
-
     while (grow_buttons_->getChildrenCount() > grow_points.size()) {
         // удаляем лишние
         grow_buttons_->removeChild(grow_buttons_->getChildren().at(0));
@@ -99,24 +92,26 @@ void TreeVisu::DrawGrowButtons(float delta) {
         auto btn = Button::create("tree_icons/plus.png");
         btn->setTouchEnabled(true);
         
-        
+        size_t btn_ind = grow_buttons_->getChildrenCount();
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
-            GrowButtonOnClick(node->getPosition(), node->getContentSize());
+            GrowButtonOnClick(btn_ind, node->getPosition(), node->getContentSize());
         }, 1.1f);
         
         grow_buttons_->addChild(btn);
     }
     
     size_t i = 0;
+    grow_buttons_ids_.resize(grow_points.size());
     for (auto& p : grow_points) {
         CC_ASSERT(i < grow_buttons_->getChildren().size());
         auto gb = grow_buttons_->getChildren().at(i);
         gb->setPosition(p.first);
+        grow_buttons_ids_[i] = p.second;
         i++;
     }
 }
 
-void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
+void TreeVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size) {
     top_level_gui_->removeAllChildren();
     
     const float shift_vert = 10.f;
@@ -151,7 +146,8 @@ void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
             top_level_gui_->removeAllChildren();
-            OnAddLeaf(src_pos);
+            assert(button_i < grow_buttons_ids_.size());
+            OnAddLeaf(grow_buttons_ids_[button_i]);
         }, 1.1f);
         
         top_level_gui_->addChild(btn);
@@ -160,12 +156,9 @@ void TreeVisu::GrowButtonOnClick(const Vec2& src_pos, const Size& src_size) {
     back_node->drawSolidRect(back_origin, back_dest, Color4F::WHITE);
 }
 
-void TreeVisu::OnAddLeaf(const Vec2& pos) {
-
-	auto found = map_grows_to_id.find(pos);
+void TreeVisu::OnAddLeaf(int parent_id) {
 	int new_id;
-	if (found != map_grows_to_id.end())
-		tree_interface_.AddLeaf(found->second, Vec2(0.f, 0.f), new_id);
+    tree_interface_.AddLeaf(parent_id, Vec2(0.f, 0.f), new_id);
 }
 
 // вызывается при клике на плюсик добавления новой ветки
@@ -174,6 +167,6 @@ void TreeVisu::OnStartAddingBranch(const Vec2& pos) {
 }
 
 // вызывается когда пользователь решил добавить ветку
-void TreeVisu::OnAddBranch(const Vec2& b, const Vec2& e) {
+void TreeVisu::OnAddBranch(int parent_id, const Vec2& b, const Vec2& e) {
     
 }

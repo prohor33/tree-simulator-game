@@ -61,9 +61,9 @@ void MeadowVisu::UpdateInfo(float delta) {
     water_res_lbl_->setString("Water: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Water)));
     visu_utils::ToRight(water_res_lbl_, 10, true);
     
-    sun_res_lbl_->setString("Sun: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Water)));
+    sun_res_lbl_->setString("Sun: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::SunEnergy)));
     visu_utils::ToRight(sun_res_lbl_, 10, true);
     
-    glucose_res_lbl_->setString("Glucose: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Water)));
+    glucose_res_lbl_->setString("Glucose: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Glucose)));
     visu_utils::ToRight(glucose_res_lbl_, 10, true);
 }
