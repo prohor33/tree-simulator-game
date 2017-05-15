@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "Scenes/MeadowScene.h"
-#include "TreeModel/Tree.h"
+#include "TreeModel/TreeStructure.h"
+#include "TreeModel/TreeResources.h"
 
 USING_NS_CC;
 
@@ -45,8 +46,12 @@ void Game::Start() {
 	tree_interface.AddBranch(third_id, Vec2(w_size.width / 18.f, w_size.height / 24.f), fourth_id);
 	tree_interface.AddBranch(second_id, Vec2(-w_size.width / 12.f, w_size.height / 16.f), fifth_id);
 
+
+	ResourceInterface resource_interface;
+	resource_interface.MakeResources(10.0, 10.0);
+
     // create a scene. it's an autorelease object
-    auto scene = MeadowScene::CreateScene(tree_interface);
+    auto scene = MeadowScene::CreateScene(tree_interface, resource_interface);
     director->runWithScene(scene);
 }
 

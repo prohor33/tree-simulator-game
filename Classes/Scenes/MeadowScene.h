@@ -2,12 +2,12 @@
 
 USING_NS_CC;
 class TreeInterface;
-
+class ResourceInterface;
 
 // Сцена поляны
 class MeadowScene : public Scene {
 public:
-    static Scene* CreateScene(TreeInterface tree_int);
+    static Scene* CreateScene(TreeInterface tree_int, ResourceInterface res_int);
     
     // a selector callback
     void MenuCloseCallback(Ref* pSender);
@@ -16,6 +16,5 @@ public:
     CREATE_FUNC(MeadowScene);
     
 private:
-    //void Build(const Tree& tree);
-	void Build(TreeInterface tree_int);
+	void Build(TreeInterface tree_int, ResourceInterface res_int);
 };

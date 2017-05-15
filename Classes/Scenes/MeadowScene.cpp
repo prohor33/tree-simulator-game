@@ -2,15 +2,16 @@
 #include "MeadowScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Visualizers/TreeVisu.h"
-#include "../TreeModel/Tree.h"
+#include "../TreeModel/TreeStructure.h"
+#include "../TreeModel/TreeResources.h"
 
-Scene* MeadowScene::CreateScene(TreeInterface tree_int) {
+Scene* MeadowScene::CreateScene(TreeInterface tree_int, ResourceInterface res_int) {
     MeadowScene* scene = MeadowScene::create();
-    scene->Build(tree_int);
+    scene->Build(tree_int, res_int);
     return scene;
 }
 
-void MeadowScene::Build(TreeInterface tree_int) {
+void MeadowScene::Build(TreeInterface tree_int, ResourceInterface res_int) {
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();

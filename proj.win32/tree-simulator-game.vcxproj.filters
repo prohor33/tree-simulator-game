@@ -33,14 +33,17 @@
     <ClCompile Include="..\Classes\Scenes\MeadowScene.cpp">
       <Filter>scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\TreeModel\Tree.cpp">
-      <Filter>tree_model</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\Visualizers\TreeVisu.cpp">
       <Filter>visualizers</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Visualizers\Utils.cpp">
       <Filter>visualizers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TreeModel\TreeResources.cpp">
+      <Filter>tree_model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TreeModel\TreeStructure.cpp">
+      <Filter>tree_model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,14 +59,20 @@
     <ClInclude Include="..\Classes\Scenes\MeadowScene.h">
       <Filter>scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\TreeModel\Tree.h">
-      <Filter>tree_model</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Visualizers\TreeVisu.h">
       <Filter>visualizers</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Visualizers\Utils.h">
       <Filter>visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TreeModel\TreeCommon.h">
+      <Filter>tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TreeModel\TreeResources.h">
+      <Filter>tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TreeModel\TreeStructure.h">
+      <Filter>tree_model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

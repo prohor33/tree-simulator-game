@@ -147,7 +147,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Game.cpp" />
     <ClCompile Include="..\Classes\Scenes\MeadowScene.cpp" />
-    <ClCompile Include="..\Classes\TreeModel\Tree.cpp" />
+    <ClCompile Include="..\Classes\TreeModel\TreeResources.cpp" />
+    <ClCompile Include="..\Classes\TreeModel\TreeStructure.cpp" />
     <ClCompile Include="..\Classes\Visualizers\TreeVisu.cpp" />
     <ClCompile Include="..\Classes\Visualizers\Utils.cpp" />
     <ClCompile Include="main.cpp" />
@@ -156,7 +157,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Game.h" />
     <ClInclude Include="..\Classes\Scenes\MeadowScene.h" />
-    <ClInclude Include="..\Classes\TreeModel\Tree.h" />
+    <ClInclude Include="..\Classes\TreeModel\TreeCommon.h" />
+    <ClInclude Include="..\Classes\TreeModel\TreeResources.h" />
+    <ClInclude Include="..\Classes\TreeModel\TreeStructure.h" />
     <ClInclude Include="..\Classes\Visualizers\TreeVisu.h" />
     <ClInclude Include="..\Classes\Visualizers\Utils.h" />
     <ClInclude Include="main.h" />

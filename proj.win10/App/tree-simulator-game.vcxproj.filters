@@ -14,14 +14,14 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{a18967bc-4fa1-4c67-bf7e-3f9c8b6a1129}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\tree-model">
-      <UniqueIdentifier>{63bb3adc-631b-47ab-9cb5-333498e01e73}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\visualizers">
       <UniqueIdentifier>{a20f67cf-58c0-43aa-b422-aadf5a6d7716}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\scenes">
       <UniqueIdentifier>{94b6c3d1-4c88-4ec2-b551-e0e0b3106eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\tree_model">
+      <UniqueIdentifier>{63bb3adc-631b-47ab-9cb5-333498e01e73}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,9 +40,6 @@
     <ClCompile Include="..\..\Classes\AppDelegate.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\TreeModel\Tree.cpp">
-      <Filter>Classes\tree-model</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Visualizers\TreeVisu.cpp">
       <Filter>Classes\visualizers</Filter>
     </ClCompile>
@@ -51,6 +48,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Game.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\TreeModel\TreeResources.cpp">
+      <Filter>Classes\tree_model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\TreeModel\TreeStructure.cpp">
+      <Filter>Classes\tree_model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -66,9 +69,6 @@
     <ClInclude Include="..\..\Classes\AppDelegate.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\TreeModel\Tree.h">
-      <Filter>Classes\tree-model</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Visualizers\TreeVisu.h">
       <Filter>Classes\visualizers</Filter>
     </ClInclude>
@@ -77,6 +77,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Classes\Game.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\TreeModel\TreeCommon.h">
+      <Filter>Classes\tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\TreeModel\TreeResources.h">
+      <Filter>Classes\tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\TreeModel\TreeStructure.h">
+      <Filter>Classes\tree_model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

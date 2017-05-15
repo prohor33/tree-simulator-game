@@ -1,5 +1,5 @@
 #pragma once
-#include "../TreeModel/Tree.h"
+#include "../TreeModel/TreeStructure.h"
 
 class TreeVisu : public Layer {
 public:
