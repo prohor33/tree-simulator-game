@@ -110,7 +110,8 @@ void TreeVisu::DrawGrowButtons(float delta) {
     size_t i = 0;
     for (auto& p : grow_points) {
         CC_ASSERT(i < grow_buttons_->getChildren().size());
-        grow_buttons_->getChildren().at(i)->setPosition(p.first);
+        auto gb = grow_buttons_->getChildren().at(i);
+        gb->setPosition(p.first);
         i++;
     }
 }
@@ -167,12 +168,12 @@ void TreeVisu::OnAddLeaf(const Vec2& pos) {
 		tree_interface_.AddLeaf(found->second, Vec2(0.f, 0.f), new_id);
 }
 
-//// вызывается при клике на плюсик добавления новой ветки
-//void TreeVisu::OnStartAddingLimb() {
-//    
-//}
-//
-//// вызывается когда пользователь решил добавить ветку
-//void TreeVisu::OnGrowLimb() {
-//    
-//}
+// вызывается при клике на плюсик добавления новой ветки
+void TreeVisu::OnStartAddingBranch(const Vec2& pos) {
+    
+}
+
+// вызывается когда пользователь решил добавить ветку
+void TreeVisu::OnAddBranch(const Vec2& b, const Vec2& e) {
+    
+}

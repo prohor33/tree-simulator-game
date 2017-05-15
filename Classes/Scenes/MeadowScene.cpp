@@ -2,6 +2,7 @@
 #include "MeadowScene.h"
 #include "SimpleAudioEngine.h"
 #include "../Visualizers/TreeVisu.h"
+#include "../Visualizers/MeadowVisu.h"
 #include "../TreeModel/TreeStructure.h"
 #include "../TreeModel/TreeResources.h"
 
@@ -75,6 +76,10 @@ void MeadowScene::Build(TreeInterface tree_int, ResourceInterface res_int) {
     auto tree_visu = TreeVisu::CreateLayer(tree_int);
     tree_visu->setPosition(tree_p);
     this->addChild(tree_visu, 1);
+    
+    // ресурсы + прочая информация
+    auto meadow_visu = MeadowVisu::CreateLayer(res_int);
+    this->addChild(meadow_visu);
 }
 
 

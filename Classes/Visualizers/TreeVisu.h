@@ -18,6 +18,10 @@ private:
     void GrowButtonOnClick(const Vec2& src_pos, const Size& src_size);
     void OnAddLeaf(const Vec2& pos);
     void DrawLeafs(float delta);
+    // вызывается при клике на плюсик добавления новой ветки
+    void OnStartAddingBranch(const Vec2& pos);
+    // вызывается когда пользователь решил добавить ветку
+    void OnAddBranch(const Vec2& b, const Vec2& e);
     
     DrawNode* draw_node_;   // рисованное дерево
     Node* leafs_;
@@ -25,7 +29,6 @@ private:
     Node* grow_buttons_;
     Node* top_level_gui_;
 	std::map<Vec2, int> map_grows_to_id;
-    //Tree tree_;
 
 	TreeInterface tree_interface_;
 };

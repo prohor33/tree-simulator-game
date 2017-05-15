@@ -38,3 +38,14 @@ void PositionInParent(cocos2d::Node* n, cocos2d::Node* parent, cocos2d::Vec2 p);
 void AdditionalScale(cocos2d::Node* s, float scale);
 
 }   // visu_utils
+
+// simple utils
+namespace s_utils {
+    
+template <typename T> std::string to_str(const T& n) {
+    std::ostringstream stm;
+    stm << n;
+    return stm.str();
+}
+    
+}   // s_utils
