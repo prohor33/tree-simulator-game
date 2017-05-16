@@ -39,6 +39,8 @@ void TreeInternal::Initialize(const Vec2& start_point)
 {
 	root.reset(new TreeNode());
 	TreeElement root_internals;
+    // хотфикс!
+    root_internals.width = 1.f;
 	root_internals.end_point = start_point;
 	root->SetInternal(root_internals);
 

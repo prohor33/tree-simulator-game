@@ -4,7 +4,7 @@
 using namespace cocos2d::ui;
 
 
-Layer* MeadowVisu::CreateLayer(ResourceInterface resource) {
+Layer* MeadowVisu::CreateLayer(const ResourcesPtr& resource) {
     MeadowVisu* layer = MeadowVisu::create();
     layer->Build(resource);
     return layer;
@@ -19,7 +19,7 @@ bool MeadowVisu::init() {
     return true;
 }
 
-void MeadowVisu::Build(ResourceInterface resource) {
+void MeadowVisu::Build(const ResourcesPtr& resource) {
     this->scheduleUpdate();
 	resource_ = resource;
     
@@ -58,12 +58,19 @@ void MeadowVisu::update(float delta){
 
 // рисует количество ресурсов
 void MeadowVisu::UpdateInfo(float delta) {
-    water_res_lbl_->setString("Water: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Water)));
+    auto to_str = [&](const double& n) -> std::string {
+        std::ostringstream stm;
+        stm.precision(2);
+        stm << std::fixed << n;
+        return stm.str();
+    };
+    
+    water_res_lbl_->setString("Water: " + to_str(resource_->GetCurrentResource(TreeResourceType::Water)));
     visu_utils::ToRight(water_res_lbl_, 10, true);
     
-    sun_res_lbl_->setString("Sun: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::SunEnergy)));
+    sun_res_lbl_->setString("Sun: " + to_str(resource_->GetCurrentResource(TreeResourceType::SunEnergy)));
     visu_utils::ToRight(sun_res_lbl_, 10, true);
     
-    glucose_res_lbl_->setString("Glucose: " + s_utils::to_str(resource_.GetCurrentResource(TreeResourceType::Glucose)));
+    glucose_res_lbl_->setString("Glucose: " + to_str(resource_->GetCurrentResource(TreeResourceType::Glucose)));
     visu_utils::ToRight(glucose_res_lbl_, 10, true);
 }

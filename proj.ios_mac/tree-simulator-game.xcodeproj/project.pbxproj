@@ -74,6 +74,8 @@
 		54C82EDC1ECA56DD00193482 /* TreeStructure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82ED71ECA56DD00193482 /* TreeStructure.cpp */; };
 		54C82EDF1ECA5B3500193482 /* MeadowVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */; };
 		54C82EE01ECA5B3500193482 /* MeadowVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */; };
+		54C82EE21ECBBD1800193482 /* TreeCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE11ECBBD1800193482 /* TreeCommon.cpp */; };
+		54C82EE31ECBBD1800193482 /* TreeCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE11ECBBD1800193482 /* TreeCommon.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -191,6 +193,7 @@
 		54C82ED81ECA56DD00193482 /* TreeStructure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeStructure.h; sourceTree = "<group>"; };
 		54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeadowVisu.cpp; sourceTree = "<group>"; };
 		54C82EDE1ECA5B3500193482 /* MeadowVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeadowVisu.h; sourceTree = "<group>"; };
+		54C82EE11ECBBD1800193482 /* TreeCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreeCommon.cpp; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -424,6 +427,7 @@
 		54777F771EB147D2000887FD /* TreeModel */ = {
 			isa = PBXGroup;
 			children = (
+				54C82EE11ECBBD1800193482 /* TreeCommon.cpp */,
 				54C82ED41ECA56DD00193482 /* TreeCommon.h */,
 				54C82ED51ECA56DD00193482 /* TreeResources.cpp */,
 				54C82ED61ECA56DD00193482 /* TreeResources.h */,
@@ -591,6 +595,7 @@
 				54777F701EB13C7E000887FD /* TreeVisu.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				54C82ED91ECA56DD00193482 /* TreeResources.cpp in Sources */,
+				54C82EE21ECBBD1800193482 /* TreeCommon.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				54C82EDF1ECA5B3500193482 /* MeadowVisu.cpp in Sources */,
 				54C82EDB1ECA56DD00193482 /* TreeStructure.cpp in Sources */,
@@ -605,6 +610,7 @@
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				54C82EDA1ECA56DD00193482 /* TreeResources.cpp in Sources */,
 				54C82EDC1ECA56DD00193482 /* TreeStructure.cpp in Sources */,
+				54C82EE31ECBBD1800193482 /* TreeCommon.cpp in Sources */,
 				54C82ECA1EB5456400193482 /* Utils.cpp in Sources */,
 				54777F761EB1458D000887FD /* Game.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,

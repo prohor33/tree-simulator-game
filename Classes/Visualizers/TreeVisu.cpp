@@ -4,9 +4,9 @@
 using namespace cocos2d::ui;
 
 
-Layer* TreeVisu::CreateLayer(TreeInterface tree_interface) {
+Layer* TreeVisu::CreateLayer(const TreePtr& tree) {
     TreeVisu* layer = TreeVisu::create();
-    layer->Build(tree_interface);
+    layer->Build(tree);
     return layer;
 }
 
@@ -19,9 +19,9 @@ bool TreeVisu::init() {
     return true;
 }
 
-void TreeVisu::Build(TreeInterface tree_interface) {
+void TreeVisu::Build(const TreePtr& tree) {
     this->scheduleUpdate();
-	tree_interface_ = tree_interface;
+	tree_ = tree;
     
     draw_node_ = DrawNode::create();
     addChild(draw_node_);
@@ -46,9 +46,9 @@ void TreeVisu::update(float delta){
     
     // рисуем ветки
 	std::vector<std::pair<Vec2, Vec2>> segments;
-	tree_interface_.GetBranches(segments);
+	tree_->GetBranches(segments);
     for (auto& s : segments)
-        draw_node_->drawSegment(s.first, s.second, 10, Color4F::ORANGE);
+        draw_node_->drawSegment(s.first, s.second, 4, Color4F::ORANGE);
     
     DrawLeafs(delta);
     
@@ -57,7 +57,7 @@ void TreeVisu::update(float delta){
 
 void TreeVisu::DrawLeafs(float delta) {
 	std::vector<std::pair<Vec2, Vec2>> local_leafs;
-	tree_interface_.GetLeafs(local_leafs);
+	tree_->GetLeafs(local_leafs);
     while (leafs_->getChildrenCount() > local_leafs.size()) {
         // удаляем лишние
         leafs_->removeChild(leafs_->getChildren().at(0));
@@ -81,7 +81,7 @@ void TreeVisu::DrawLeafs(float delta) {
 void TreeVisu::DrawGrowButtons(float delta) {
     
 	std::vector<std::pair<Vec2, int>> grow_points;
-	tree_interface_.GetGrowPoints(grow_points);
+	tree_->GetGrowPoints(grow_points);
 
     while (grow_buttons_->getChildrenCount() > grow_points.size()) {
         // удаляем лишние
@@ -158,7 +158,7 @@ void TreeVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Siz
 
 void TreeVisu::OnAddLeaf(int parent_id) {
 	int new_id;
-    tree_interface_.AddLeaf(parent_id, Vec2(0.f, 0.f), new_id);
+    tree_->AddLeaf(parent_id, Vec2(0.f, 0.f), new_id);
 }
 
 // вызывается при клике на плюсик добавления новой ветки

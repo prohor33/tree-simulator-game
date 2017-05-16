@@ -23,7 +23,7 @@ enum ResourceAddingResult
 class ResourceEntity
 {
 public:
-	ResourceEntity(TreeResourceType t) : res_type(t), cur_value(0), max_res(-1), min_res(0) {};
+	ResourceEntity(TreeResourceType t) : res_type(t), cur_value(0), max_res(1000), min_res(0) {};
 	ResourceEntity(TreeResourceType t, double val) : res_type(t), cur_value(val), max_res(-1), min_res(0) {};
 
 	const ResourceAddingResult PlusRes(double val);
@@ -84,3 +84,6 @@ public:
 private:
 	std::shared_ptr<ResourceKeeper> resources_keeper;
 };
+
+
+using ResourcesPtr = std::shared_ptr<ResourceInterface>;

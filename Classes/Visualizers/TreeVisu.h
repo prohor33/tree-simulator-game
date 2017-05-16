@@ -4,15 +4,14 @@
 class TreeVisu : public Layer {
 public:
     //static Layer* CreateLayer(const TreeInterface& tree);
-	static Layer* CreateLayer(TreeInterface tree_interface);
+	static Layer* CreateLayer(const TreePtr& tree_interface);
     virtual bool init() override;
     CREATE_FUNC(TreeVisu);
     
     void update(float) override;
     
 private:
-    //void Build(const Tree& tree);
-	void Build(TreeInterface tree_interface);
+	void Build(const TreePtr& tree);
     // рисует кнопки в точках возможного роста
     void DrawGrowButtons(float delta);
     void GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size);
@@ -30,5 +29,5 @@ private:
     std::vector<int> grow_buttons_ids_;
     Node* top_level_gui_;
 
-	TreeInterface tree_interface_;
+	TreePtr tree_;
 };

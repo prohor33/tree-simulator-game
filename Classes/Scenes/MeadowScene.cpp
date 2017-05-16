@@ -3,40 +3,35 @@
 #include "SimpleAudioEngine.h"
 #include "../Visualizers/TreeVisu.h"
 #include "../Visualizers/MeadowVisu.h"
-#include "../TreeModel/TreeStructure.h"
-#include "../TreeModel/TreeResources.h"
+#include "../Game.h"
 
-Scene* MeadowScene::CreateScene(TreeInterface tree_int, ResourceInterface res_int) {
+
+Scene* MeadowScene::CreateScene(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     MeadowScene* scene = MeadowScene::create();
     scene->Build(tree_int, res_int);
     return scene;
 }
 
-void MeadowScene::Build(TreeInterface tree_int, ResourceInterface res_int) {
+void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
+    tree_int_ = tree_int;
+    res_int_ = res_int;
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
+    auto closeItem = MenuItemImage::create("CloseNormal.png",
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(MeadowScene::MenuCloseCallback, this));
     
     closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
-
+    
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
@@ -80,22 +75,42 @@ void MeadowScene::Build(TreeInterface tree_int, ResourceInterface res_int) {
     // ресурсы + прочая информация
     auto meadow_visu = MeadowVisu::CreateLayer(res_int);
     this->addChild(meadow_visu);
+    
+    const float tree_update_interval = 0.1;
+    schedule(schedule_selector(MeadowScene::UpdateTree), tree_update_interval);
+}
+
+void MeadowScene::UpdateTree(float dt) {
+    
+    std::vector<TreeResourceType> res_types = {
+        TreeResourceType::Water,
+        TreeResourceType::SunEnergy,
+        TreeResourceType::Glucose
+    };
+    
+    for (auto& res_t : res_types) {
+        double prod;
+        tree_int_->GetCurrentProduction(res_t, prod);
+        double cons;
+        tree_int_->GetCurrentConsumption(res_t, cons);
+        
+        log("%s production: %lf", to_str(res_t).c_str(), prod);
+        log("%s consumption: %lf", to_str(res_t).c_str(), cons);
+        
+        double res_delta = (prod - cons) * dt;
+        log("%s res_delta: %lf", to_str(res_t).c_str(), res_delta);
+        auto result = res_int_->AddResources(res_t, res_delta);
+        
+        log("%s current: %lf\n", to_str(res_t).c_str(), res_int_->GetCurrentResource(res_t));
+        
+        if (result == ResourceAddingResult::ResourceResultNotEnough) {
+            log("Warning: not enough %s", to_str(res_t).c_str());
+        }
+    }
+}
+
+void MeadowScene::MenuCloseCallback(Ref* pSender) {
+    Game::instance()->Exit();
 }
 
 
-void MeadowScene::MenuCloseCallback(Ref* pSender)
-{
-    //Close the cocos2d-x game scene and quit the application
-    Director::getInstance()->end();
-
-    #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-    
-    /*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-    
-    //EventCustom customEndEvent("game_scene_close_event");
-    //_eventDispatcher->dispatchEvent(&customEndEvent);
-    
-    
-}

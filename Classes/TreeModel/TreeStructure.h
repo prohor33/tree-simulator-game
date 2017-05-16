@@ -89,3 +89,5 @@ private:
 	std::shared_ptr<TreeInternal> tree;
 	TreeElement tree_root;
 };
+
+using TreePtr = std::shared_ptr<TreeInterface>;

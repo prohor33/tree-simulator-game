@@ -1,13 +1,13 @@
 #pragma once
+#include "../TreeModel/TreeStructure.h"
+#include "../TreeModel/TreeResources.h"
 
 USING_NS_CC;
-class TreeInterface;
-class ResourceInterface;
 
 // Сцена поляны
 class MeadowScene : public Scene {
 public:
-    static Scene* CreateScene(TreeInterface tree_int, ResourceInterface res_int);
+    static Scene* CreateScene(const TreePtr& tree_int, const ResourcesPtr& res_int);
     
     // a selector callback
     void MenuCloseCallback(Ref* pSender);
@@ -16,5 +16,9 @@ public:
     CREATE_FUNC(MeadowScene);
     
 private:
-	void Build(TreeInterface tree_int, ResourceInterface res_int);
+	void Build(const TreePtr& tree_int, const ResourcesPtr& res_int);
+    void UpdateTree(float dt);
+    
+    TreePtr tree_int_;
+    ResourcesPtr res_int_;
 };

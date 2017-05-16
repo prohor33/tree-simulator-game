@@ -4,14 +4,14 @@
 class MeadowVisu : public Layer {
 public:
     //static Layer* CreateLayer(const TreeInterface& tree);
-	static Layer* CreateLayer(ResourceInterface resource);
+	static Layer* CreateLayer(const ResourcesPtr& resource);
     virtual bool init() override;
     CREATE_FUNC(MeadowVisu);
     
     void update(float) override;
     
 private:
-	void Build(ResourceInterface resource);
+	void Build(const ResourcesPtr& resource);
     // обновляет количество ресурсов
     void UpdateInfo(float delta);
     
@@ -20,5 +20,5 @@ private:
     Label* sun_res_lbl_;
     Label* glucose_res_lbl_;
 
-	ResourceInterface resource_;
+	ResourcesPtr resource_;
 };
