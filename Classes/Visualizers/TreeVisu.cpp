@@ -3,6 +3,9 @@
 #include "Utils.h"
 using namespace cocos2d::ui;
 
+namespace {
+    const Color4F branch_color = Color4F(Color3B(169, 113, 0));
+}
 
 Layer* TreeVisu::CreateLayer(const TreePtr& tree) {
     TreeVisu* layer = TreeVisu::create();
@@ -48,11 +51,14 @@ void TreeVisu::update(float delta){
 	std::vector<std::pair<Vec2, Vec2>> segments;
 	tree_->GetBranches(segments);
     for (auto& s : segments)
-        draw_node_->drawSegment(s.first, s.second, 4, Color4F::ORANGE);
+        draw_node_->drawSegment(s.first, s.second, 4, branch_color);
     
     DrawLeafs(delta);
     
     DrawGrowButtons(delta);
+    
+    // рисует ветки в процессе добавления
+    DrawTemporaryElements(delta);
 }
 
 void TreeVisu::DrawLeafs(float delta) {
@@ -130,7 +136,10 @@ void TreeVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Siz
         back_dest = btn_p + btn->getContentSize() / 2.f  + Vec2(padding, padding);
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
-            
+            // новая ветка
+            top_level_gui_->removeAllChildren();
+            if (button_i < grow_buttons_ids_.size(), button_i < grow_buttons_->getChildrenCount())
+                OnStartAddingBranch(grow_buttons_ids_[button_i], (Button*)grow_buttons_->getChildren().at(button_i));
         }, 1.1f);
         
         top_level_gui_->addChild(btn);
@@ -145,6 +154,7 @@ void TreeVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Siz
         back_origin = btn_p - btn->getContentSize() / 2.f - Vec2(padding, padding);
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
+            // клик на лист
             top_level_gui_->removeAllChildren();
             assert(button_i < grow_buttons_ids_.size());
             OnAddLeaf(grow_buttons_ids_[button_i]);
@@ -161,12 +171,45 @@ void TreeVisu::OnAddLeaf(int parent_id) {
     tree_->AddLeaf(parent_id, Vec2(0.f, 0.f), new_id);
 }
 
-// вызывается при клике на плюсик добавления новой ветки
-void TreeVisu::OnStartAddingBranch(const Vec2& pos) {
+// вызывается при клике на иконку ветку добавления
+void TreeVisu::OnStartAddingBranch(int parent_id, Button* node) {
+    // добавляем еще одну временную кнопку сверху
     
+    auto btn = Button::create("tree_icons/plus.png");
+    btn->setTouchEnabled(true);
+    btn->setPosition(node->getPosition());
+    top_level_gui_->addChild(btn);
+    btn->getEventDispatcher()->removeEventListenersForTarget(btn);
+    
+    auto btn_pos = node->getPosition();
+    
+    visu_utils::AddOnMoveListener(btn,
+    [this, btn_pos] (Node* n, Point p) {
+        // on start
+        this->tmp_draw_branch_ = { btn_pos, btn_pos };
+        
+    }, [=] (cocos2d::Touch* touch, cocos2d::Event* event) {
+        // on move
+        if (this->tmp_draw_branch_.size() == 2)
+            this->tmp_draw_branch_[1] += touch->getDelta();
+    }, [=] (Node* n, Point p) {
+        top_level_gui_->removeAllChildren();
+        if (this->tmp_draw_branch_.size() == 2) {
+            int id;
+            tree_->AddBranch(parent_id, this->tmp_draw_branch_[1] - this->tmp_draw_branch_[0], id);
+        }
+        this->tmp_draw_branch_.clear();
+    });
 }
 
 // вызывается когда пользователь решил добавить ветку
 void TreeVisu::OnAddBranch(int parent_id, const Vec2& b, const Vec2& e) {
     
+}
+
+// рисует ветки в процессе добавления
+void TreeVisu::DrawTemporaryElements(float delta) {
+    if (tmp_draw_branch_.size() == 2) {
+        draw_node_->drawSegment(tmp_draw_branch_[0], tmp_draw_branch_[1], 4, branch_color);
+    }
 }

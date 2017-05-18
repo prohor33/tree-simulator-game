@@ -32,7 +32,7 @@ void MoveToCenter(cocos2d::Node* s, float x, float y);
 void AddDebugPositionLogger(cocos2d::Sprite* s);
 void AddOnClickListener(cocos2d::Node* s, OnClickF on_click, double on_touch_coef = 1.f, OnClickLocationF on_click_location = nullptr);
 void AddOnClickListener(cocos2d::ui::Button* s, OnClickButtonF on_click, double on_touch_coef = 1.f);
-void AddOnMoveListener(Node* s, OnMoveF on_move, double on_touch_coef);
+void AddOnMoveListener(Node* s, OnClickLocationF on_start, OnMoveF on_move, OnClickLocationF on_end = nullptr, double on_touch_coef = 1.f);
 float GetScreenRatio();
 void PositionInParent(cocos2d::Node* n, cocos2d::Node* parent, cocos2d::Vec2 p);
 void AdditionalScale(cocos2d::Node* s, float scale);

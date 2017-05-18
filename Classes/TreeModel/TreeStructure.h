@@ -71,7 +71,7 @@ public:
 	bool MakeTree(const Vec2& start_point);
 
 	// функции для добавления элементов
-	const AddingResult AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef = 1.0, double width_coef = 1.0);
+	const AddingResult AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef = 1.0, double width_coef = 0.5);
 	const AddingResult AddLeaf(const int branch_id, const Vec2& point_of_grow, int& id);
 	const AddingResult AddRoot();
 

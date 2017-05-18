@@ -17,17 +17,22 @@ private:
     void GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size);
     void OnAddLeaf(int parent_id);
     void DrawLeafs(float delta);
-    // вызывается при клике на плюсик добавления новой ветки
-    void OnStartAddingBranch(const Vec2& pos);
+    // вызывается при клике на иконку ветку добавления
+    void OnStartAddingBranch(int parent_id, cocos2d::ui::Button* node);
     // вызывается когда пользователь решил добавить ветку
     void OnAddBranch(int parent_id, const Vec2& b, const Vec2& e);
+    // рисует ветки в процессе добавления
+    void DrawTemporaryElements(float delta);
     
     DrawNode* draw_node_;   // рисованное дерево
     Node* leafs_;
     Node* gui_root_;        // кнопочки на дереве
     Node* grow_buttons_;
-    std::vector<int> grow_buttons_ids_;
+    std::vector<int> grow_buttons_ids_; // идентификаторы вершин кнопок
     Node* top_level_gui_;
+    
+    // данные для временной отрисовки
+    std::vector<Point> tmp_draw_branch_;
 
 	TreePtr tree_;
 };

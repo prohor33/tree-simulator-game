@@ -355,7 +355,7 @@ void AddOnClickListener(Button* s, OnClickButtonF on_click, double on_touch_coef
     
 }
 
-void AddOnMoveListener(Node* s, OnMoveF on_move, double on_touch_coef) {
+void AddOnMoveListener(Node* s, OnClickLocationF on_start, OnMoveF on_move, OnClickLocationF on_end, double on_touch_coef) {
     auto listener = EventListenerTouchOneByOne::create();
     // preventing other listeners from using it
     listener->setSwallowTouches(true);
@@ -385,6 +385,9 @@ void AddOnMoveListener(Node* s, OnMoveF on_move, double on_touch_coef) {
         scale *= on_touch_coef;
         s->setScale(scale);
         
+        if (on_start)
+            on_start(event->getCurrentTarget(), touch->getLocation());
+        
         return true; // if you are consuming it
     };
     
@@ -403,6 +406,9 @@ void AddOnMoveListener(Node* s, OnMoveF on_move, double on_touch_coef) {
         Point locationInNode = s->convertToNodeSpace(touch->getLocation());
         Size size = s->getContentSize();
         Rect rect = Rect(0, 0, size.width, size.height);
+        
+        if (on_end)
+            on_end(event->getCurrentTarget(), touch->getLocation());
         
         //Check the click area
         if (!rect.containsPoint(locationInNode))

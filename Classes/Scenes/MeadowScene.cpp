@@ -5,6 +5,11 @@
 #include "../Visualizers/MeadowVisu.h"
 #include "../Game.h"
 
+namespace {
+    const Color4F field_color = Color4F(Color3B(0, 223, 3));
+    const Color4F sky_color = Color4F(Color3B(58, 195, 255));
+}
+
 
 Scene* MeadowScene::CreateScene(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     MeadowScene* scene = MeadowScene::create();
@@ -64,7 +69,12 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     this->addChild(draw_node);
     const float grass_h = w_size.height / 10.f;
     Size grass_size(w_size.width, grass_h);
-    draw_node->drawSolidRect(w_origin, w_origin + grass_size, Color4F::GREEN);
+    draw_node->drawSolidRect(w_origin, w_origin + grass_size, field_color);
+    
+    // небо
+    Size sky_size(w_size.width, w_size.height - grass_h);
+    Vec2 sky_origin = w_origin + Vec2(0.f, grass_h);
+    draw_node->drawSolidRect(sky_origin, sky_origin + sky_size, sky_color);
 
     Vec2 tree_p = w_origin + Vec2(w_size.width / 2.f, grass_h);
     
@@ -94,14 +104,14 @@ void MeadowScene::UpdateTree(float dt) {
         double cons;
         tree_int_->GetCurrentConsumption(res_t, cons);
         
-        log("%s production: %lf", to_str(res_t).c_str(), prod);
-        log("%s consumption: %lf", to_str(res_t).c_str(), cons);
+//        log("%s production: %lf", to_str(res_t).c_str(), prod);
+//        log("%s consumption: %lf", to_str(res_t).c_str(), cons);
         
         double res_delta = (prod - cons) * dt;
-        log("%s res_delta: %lf", to_str(res_t).c_str(), res_delta);
+//        log("%s res_delta: %lf", to_str(res_t).c_str(), res_delta);
         auto result = res_int_->AddResources(res_t, res_delta);
         
-        log("%s current: %lf\n", to_str(res_t).c_str(), res_int_->GetCurrentResource(res_t));
+//        log("%s current: %lf\n", to_str(res_t).c_str(), res_int_->GetCurrentResource(res_t));
         
         if (result == ResourceAddingResult::ResourceResultNotEnough) {
             log("Warning: not enough %s", to_str(res_t).c_str());
