@@ -32,6 +32,9 @@ void TreeVisu::Build(const TreePtr& tree) {
     leafs_ = Node::create();
     addChild(leafs_);
     
+    tree_root_ = Node::create();
+    addChild(tree_root_);
+    
     gui_root_ = Node::create();
     addChild(gui_root_);
     
@@ -40,6 +43,11 @@ void TreeVisu::Build(const TreePtr& tree) {
     
     top_level_gui_ = Node::create();
     gui_root_->addChild(top_level_gui_);
+    
+    tree_root_buttons_ = Node::create();
+    gui_root_->addChild(tree_root_buttons_);
+    
+    BuildTreeRoot();
 }
 
 void TreeVisu::update(float delta){
@@ -59,6 +67,8 @@ void TreeVisu::update(float delta){
     
     // рисует ветки в процессе добавления
     DrawTemporaryElements(delta);
+    
+    DrawTreeRoot(delta);
 }
 
 void TreeVisu::DrawLeafs(float delta) {
@@ -70,7 +80,7 @@ void TreeVisu::DrawLeafs(float delta) {
     }
     while (leafs_->getChildrenCount() < local_leafs.size()) {
         // добавляем недостающие
-        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");        
+        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");  
         leafs_->addChild(l);
     }
     
@@ -213,3 +223,30 @@ void TreeVisu::DrawTemporaryElements(float delta) {
         draw_node_->drawSegment(tmp_draw_branch_[0], tmp_draw_branch_[1], 4, branch_color);
     }
 }
+
+void TreeVisu::BuildTreeRoot() {
+    Sprite* s = Sprite::create("tree_elements/root.png");
+    tree_root_->addChild(s);
+    
+    auto btn_plus = Button::create("tree_icons/root_plus.png");
+    visu_utils::AddOnClickListener(btn_plus, [=] (Button* node) {
+        tree_->AddRoot();
+    }, 1.1f);
+    tree_root_buttons_->addChild(btn_plus);
+    visu_utils::MoveYPxl(btn_plus, -20);
+}
+
+void TreeVisu::DrawTreeRoot(float delta) {
+    double root_length;
+    tree_->GetRoot(root_length);
+    if (tree_root_->getChildrenCount() < 1)
+        return;
+    
+    auto s = tree_root_->getChildren().at(0);
+    s->setScale(root_length / 5.0f);
+    s->setPosition(0, 0);
+    visu_utils::MoveYPxl(s, -s->getContentSize().height * s->getScale() / 2.f);
+}
+
+
+
