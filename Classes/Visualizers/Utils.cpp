@@ -436,3 +436,18 @@ void AdditionalScale(Node* s, float scale) {
 
     
 } // visu_utils
+
+
+namespace s_utils {
+    
+float rand_m1_1() {
+    return (rand() % 100 - 50) / 50.f;
+}
+float rand_0_1() {
+    return (rand() % 100) / 100.f;
+}
+    
+}   // s_utils
+
+
+

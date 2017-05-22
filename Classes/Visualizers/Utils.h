@@ -48,4 +48,7 @@ template <typename T> std::string to_str(const T& n) {
     return stm.str();
 }
     
+float rand_m1_1();
+float rand_0_1();
+    
 }   // s_utils

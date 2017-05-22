@@ -80,7 +80,15 @@ void TreeVisu::DrawLeafs(float delta) {
     }
     while (leafs_->getChildrenCount() < local_leafs.size()) {
         // добавляем недостающие
-        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");  
+        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");
+        l->setAnchorPoint(Vec2());
+        const float max_start_angle = 45.f;
+        l->setRotation(max_start_angle * s_utils::rand_m1_1());
+        const float rot_time = 1.f + s_utils::rand_m1_1() * 0.8f;
+        const float rot_angle = 30.f + s_utils::rand_m1_1() * 10.f;
+        auto rotate1 = RotateBy::create(rot_time, rot_angle);
+        auto rotate2 = RotateBy::create(rot_time, -rot_angle);
+        l->runAction(RepeatForever::create(Sequence::create(rotate1, rotate2, nullptr)));
         leafs_->addChild(l);
     }
     
@@ -88,7 +96,7 @@ void TreeVisu::DrawLeafs(float delta) {
     for (auto& p : local_leafs) {
         CC_ASSERT(i < leafs_->getChildren().size());
         auto leaf = leafs_->getChildren().at(i);
-        leaf->setPosition(p.first + leaf->getBoundingBox().size / 2.f);
+        leaf->setPosition(p.first);
         i++;
     }
 }
