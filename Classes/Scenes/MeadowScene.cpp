@@ -49,16 +49,6 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
 
     // add the label as a child to this layer
     this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-    
     
     
     Size w_size = Director::getInstance()->getVisibleSize();
@@ -80,11 +70,12 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     
     auto tree_visu = TreeVisu::CreateLayer(tree_int);
     tree_visu->setPosition(tree_p);
-    this->addChild(tree_visu, 1);
+    this->addChild(tree_visu);
     
     // ресурсы + прочая информация
-    auto meadow_visu = MeadowVisu::CreateLayer(res_int);
+    auto meadow_visu = MeadowVisu::CreateLayer(res_int, tree_int);
     this->addChild(meadow_visu);
+
     
     const float tree_update_interval = 0.1;
     schedule(schedule_selector(MeadowScene::UpdateTree), tree_update_interval);
@@ -107,7 +98,8 @@ void MeadowScene::UpdateTree(float dt) {
 //        log("%s production: %lf", to_str(res_t).c_str(), prod);
 //        log("%s consumption: %lf", to_str(res_t).c_str(), cons);
         
-        double res_delta = (prod - cons) * dt;
+        const double time_coef = 0.3;
+        double res_delta = (prod - cons) * dt * time_coef;
 //        log("%s res_delta: %lf", to_str(res_t).c_str(), res_delta);
         auto result = res_int_->AddResources(res_t, res_delta);
         
