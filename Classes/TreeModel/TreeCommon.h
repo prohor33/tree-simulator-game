@@ -28,8 +28,8 @@ enum TreeResourceType
 class TreeElement
 {
 public: 
-	TreeElement() : element_id(0), type(TreePartType::TypeUndefined), start_point(), end_point(), 
-		width(0.), length(0.), height(0.) {};
+	TreeElement() : element_id(-1), type(TreePartType::TypeUndefined), start_point(), end_point(), 
+		width(0.), length(0.), height(0.), water_con(0.) {};
 
 	int element_id;      // уникальный айдишник элемента
 	TreePartType type;   // тип элемента (ветка/лист/плод)
@@ -40,6 +40,8 @@ public:
 	double width;        // ширина элемента (при наличии)
 	double length;       // длина элемента (при наличии)
 	double height;       // высота элемента (при наличии)
+
+	double water_con;    // содержание воды на каждый элемент
 };
 
 ////////////////////////////////////////////////////////////////////
