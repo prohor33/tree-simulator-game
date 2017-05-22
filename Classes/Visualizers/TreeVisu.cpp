@@ -114,6 +114,7 @@ void TreeVisu::DrawGrowButtons(float delta) {
     while (grow_buttons_->getChildrenCount() < grow_points.size()) {
         // добавляем недостающие
         auto btn = Button::create("tree_icons/plus.png");
+        visu_utils::ChangeSizeByWidth(btn, 0.05f);
         btn->setTouchEnabled(true);
         
         size_t btn_ind = grow_buttons_->getChildrenCount();
@@ -251,7 +252,7 @@ void TreeVisu::DrawTreeRoot(float delta) {
         return;
     
     auto s = tree_root_->getChildren().at(0);
-    s->setScale(root_length / 5.0f);
+    s->setScale(root_length / 3.0f);
     s->setPosition(0, 0);
     visu_utils::MoveYPxl(s, -s->getContentSize().height * s->getScale() / 2.f);
 }

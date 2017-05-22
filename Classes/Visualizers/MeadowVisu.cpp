@@ -82,24 +82,27 @@ void MeadowVisu::UpdateInfo(float delta) {
     tree_->GetCurrentConsumption(TreeResourceType::Glucose, glucose_cons);
     tree_->GetCurrentProduction(TreeResourceType::Glucose, glucose_prod);
     
+    const float shift1 = 10.f;
+    const float shift2 = 35.f;
+    
     // вода
     bool water_ok = water_cons <= water_prod;
     water_res_lbl_->setString("Water: " + to_str(water));
-    visu_utils::ToRight(water_res_lbl_, 30, true);
+    visu_utils::ToRight(water_res_lbl_, shift2, true);
     
     water_res_lbl_arrow_->setString(water_ok ? "⬆" : "⬇");
     water_res_lbl_arrow_->setTextColor(water_ok ? Color4B::GREEN : Color4B::RED);
-    visu_utils::ToRight(water_res_lbl_arrow_, 10, true);
+    visu_utils::ToRight(water_res_lbl_arrow_, shift1, true);
     
     
     // глюкоза
     bool glucose_ok = glucose_cons <= glucose_prod;
     glucose_res_lbl_->setString("Glucose: " + to_str(glucose));
-    visu_utils::ToRight(glucose_res_lbl_, 30, true);
+    visu_utils::ToRight(glucose_res_lbl_, shift2, true);
     
     glucose_res_lbl_arrow_->setString(glucose_ok ? "⬆" : "⬇");
     glucose_res_lbl_arrow_->setTextColor(glucose_ok ? Color4B::GREEN : Color4B::RED);
-    visu_utils::ToRight(glucose_res_lbl_arrow_, 10, true);
+    visu_utils::ToRight(glucose_res_lbl_arrow_, shift1, true);
 }
 
 
