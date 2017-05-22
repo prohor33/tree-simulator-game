@@ -167,7 +167,7 @@ const AddingResult TreeInterface::AddLeaf(const int branch_id, const Vec2& point
 
 const AddingResult TreeInterface::AddRoot()
 {
-	tree_root.length++;
+	tree_root.length += 0.2;
 	return AddingResult::ResultOK;
 }
 
