@@ -31,6 +31,7 @@ public:
 	TreeNode* GetParent() const { return parent; }
 	TreeNodePtr GetChild(int pos) const { return children.at(pos); }
 	const TreeElement& GetInternals() const { return elem; }
+	TreeElement& GetInternals() { return elem; }
 
 	int GetChildrenAmount() const;
 };
@@ -52,11 +53,13 @@ public:
 	const AddingResult AddElement(const int branch_id, const Vec2& point_of_grow, int& id, TreePartType tp, double length_coef = 1.0, double width_coef = 1.0);
 
 	void GetElements(std::vector<std::pair<Vec2, Vec2>>& elems, TreePartType tp) const;
-	
+	TreeElement& GetElementByID(int& id);
+	const TreeElement& GetElementByID(int& id) const;
+
 	void GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const;
 
-	void GetElementsConsumption(TreeResourceType t, double& val);
-	void GetElementsProduction(TreeResourceType t, double& val);
+	void GetElementsConsumption(TreeResourceType t, double& val) const;
+	void GetElementsProduction(TreeResourceType t, double& val) const;
 
 private:
 	std::shared_ptr<TreeNode> root;
@@ -78,12 +81,15 @@ public:
 	// функции для получения элементов (заменить на итератор)
 	void GetBranches(std::vector<std::pair<Vec2, Vec2>>& branches) const;
 	void GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const;
-	void GetRoot(double& current_length);
+	void GetRoot(double& current_length) const;
 
-	void GetCurrentProduction(TreeResourceType t, double& val);
-	void GetCurrentConsumption(TreeResourceType t, double& val);
+	void GetCurrentProduction(TreeResourceType t, double& val) const;
+	void GetCurrentConsumption(TreeResourceType t, double& val) const;
 
 	void GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const;
+
+	TreeElement& GetElementByID(int& id);
+	const TreeElement& GetElementByID(int& id) const;
 
 private:
 	std::shared_ptr<TreeInternal> tree;

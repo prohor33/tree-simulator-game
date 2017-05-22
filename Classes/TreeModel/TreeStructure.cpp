@@ -4,6 +4,8 @@
 
 ////////////////////////////////////////////////////////////////////
 
+TreeElement dummy_element;
+
 void TreeNode::SetInternal(const TreeElement& inter)
 {
 	elem = inter;
@@ -57,6 +59,9 @@ const AddingResult TreeInternal::AddElement(const int branch_id, const Vec2& vec
 	const TreeElement& old_internals = found->second->GetInternals();
 
 	std::shared_ptr<TreeNode> new_node(new TreeNode());
+	new_node->SetParent(found->second.get());
+	found->second->AddChild(new_node);
+
 	TreeElement new_internals;
 	new_internals.element_id = fast_navigation_map.size();
 	new_internals.start_point = old_internals.end_point;
@@ -75,14 +80,28 @@ const AddingResult TreeInternal::AddElement(const int branch_id, const Vec2& vec
 	{
 		new_internals.width = old_internals.width;
 		new_internals.height = new_internals.end_point.y;
+		double water_consumption = ResourceKeeper::GetConsumption(new_internals, Water);
+		new_internals.water_con = water_consumption;
+
+		TreeNode* parent_node = new_node->GetParent();
+		while (parent_node != root.get())
+		{
+			parent_node->GetInternals().water_con += water_consumption;
+			parent_node = parent_node->GetParent();
+		}
 		break;
 	}
 	}
 
 	new_node->SetInternal(new_internals);
-	new_node->SetParent(found->second.get());
 	
-	found->second->AddChild(new_node);
+	
+	
+
+	if (tp == TreePartType::Leaf)
+	{
+		
+	}
 
 	fast_navigation_map[new_internals.element_id] = new_node;
 
@@ -105,7 +124,27 @@ void TreeInternal::GetElements(std::vector<std::pair<Vec2, Vec2>>& elems, TreePa
 	}
 }
 
-void TreeInternal::GetElementsConsumption(TreeResourceType t, double& val)
+TreeElement& TreeInternal::GetElementByID(int& id)
+{
+	auto found = fast_navigation_map.find(id);
+	if (found != fast_navigation_map.end())
+	{
+		return found->second->GetInternals();
+	}
+	else return dummy_element;
+}
+
+const TreeElement& TreeInternal::GetElementByID(int& id) const
+{
+	auto found = fast_navigation_map.find(id);
+	if (found != fast_navigation_map.end())
+	{
+		return found->second->GetInternals();
+	}
+	else return dummy_element;
+}
+
+void TreeInternal::GetElementsConsumption(TreeResourceType t, double& val) const 
 {
 	double sum = 0;
 	for (auto i = 0; i != fast_navigation_map.size(); ++i)
@@ -116,7 +155,7 @@ void TreeInternal::GetElementsConsumption(TreeResourceType t, double& val)
 	val = sum;
 }
 
-void TreeInternal::GetElementsProduction(TreeResourceType t, double& val)
+void TreeInternal::GetElementsProduction(TreeResourceType t, double& val) const
 {
 	double sum = 0;
 	for (auto i = 0; i != fast_navigation_map.size(); ++i)
@@ -181,19 +220,19 @@ void TreeInterface::GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const
 	tree->GetElements(leafs, TreePartType::Leaf);
 }
 
-void TreeInterface::GetCurrentProduction(TreeResourceType t, double& val)
+void TreeInterface::GetCurrentProduction(TreeResourceType t, double& val) const
 {
 	tree->GetElementsProduction(t, val);
 	val += ResourceKeeper::GetProduction(tree_root, t);
 }
 
-void TreeInterface::GetCurrentConsumption(TreeResourceType t, double& val)
+void TreeInterface::GetCurrentConsumption(TreeResourceType t, double& val) const
 {
 	tree->GetElementsConsumption(t, val);
 	val += ResourceKeeper::GetConsumption(tree_root, t);
 }
 
-void TreeInterface::GetRoot(double& current_length)
+void TreeInterface::GetRoot(double& current_length) const
 {
 	current_length = tree_root.length;
 }
@@ -202,3 +241,14 @@ void TreeInterface::GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points
 {
 	tree->GetGrowPoints(grow_points);
 }
+
+TreeElement& TreeInterface::GetElementByID(int& id)
+{
+	return tree->GetElementByID(id);
+}
+
+const TreeElement& TreeInterface::GetElementByID(int& id) const
+{
+	return tree->GetElementByID(id);
+}
+

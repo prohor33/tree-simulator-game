@@ -45,6 +45,12 @@
     <ClCompile Include="..\Classes\TreeModel\TreeStructure.cpp">
       <Filter>tree_model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\MeadowVisu.cpp">
+      <Filter>visualizers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TreeModel\TreeCommon.cpp">
+      <Filter>tree_model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TreeModel\TreeStructure.h">
       <Filter>tree_model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\MeadowVisu.h">
+      <Filter>visualizers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
