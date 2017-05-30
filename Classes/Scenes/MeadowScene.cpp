@@ -98,7 +98,7 @@ void MeadowScene::UpdateTree(float dt) {
 //        log("%s production: %lf", to_str(res_t).c_str(), prod);
 //        log("%s consumption: %lf", to_str(res_t).c_str(), cons);
         
-        const double time_coef = 0.3;
+        const double time_coef = 0.01;
         double res_delta = (prod - cons) * dt * time_coef;
 //        log("%s res_delta: %lf", to_str(res_t).c_str(), res_delta);
         auto result = res_int_->AddResources(res_t, res_delta);

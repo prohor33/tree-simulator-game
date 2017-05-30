@@ -90,6 +90,8 @@ public:
 
 	TreeElement& GetElementByID(int& id);
 	const TreeElement& GetElementByID(int& id) const;
+    
+    void Update(float dt) {};
 
 private:
 	std::shared_ptr<TreeInternal> tree;

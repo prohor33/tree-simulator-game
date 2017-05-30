@@ -59,13 +59,14 @@ void MeadowVisu::Build(const ResourcesPtr& resource, const TreePtr& tree) {
 
 void MeadowVisu::update(float delta){
     UpdateInfo(delta);
+    tree_->Update(delta);
 }
 
 // рисует количество ресурсов
 void MeadowVisu::UpdateInfo(float delta) {
     auto to_str = [&](const double& n) -> std::string {
         std::ostringstream stm;
-        stm.precision(2);
+        stm.precision(0);
         stm << std::fixed << n;
         return stm.str();
     };
