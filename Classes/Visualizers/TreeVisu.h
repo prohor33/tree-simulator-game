@@ -13,6 +13,7 @@ public:
 private:
 	void Build(const TreePtr& tree);
     void BuildTreeRoot();
+    void DrawBranches(float delta);
     // рисует кнопки в точках возможного роста
     void DrawGrowButtons(float delta);
     void GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size);
@@ -20,8 +21,6 @@ private:
     void DrawLeafs(float delta);
     // вызывается при клике на иконку ветку добавления
     void OnStartAddingBranch(int parent_id, cocos2d::ui::Button* node);
-    // вызывается когда пользователь решил добавить ветку
-    void OnAddBranch(int parent_id, const Vec2& b, const Vec2& e);
     // рисует ветки в процессе добавления
     void DrawTemporaryElements(float delta);
     void DrawTreeRoot(float delta);

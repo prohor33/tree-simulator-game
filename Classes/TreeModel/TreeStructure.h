@@ -3,6 +3,8 @@
 
 ////////////////////////////////////////////////////////////////////
 
+const double new_branch_width = 1.0;
+
 // элемент дерева
 class TreeNode
 {
@@ -50,9 +52,10 @@ public:
 	TreeInternal() : root(nullptr) {}
 	void Initialize(const Vec2& start_point);
 
-	const AddingResult AddElement(const int branch_id, const Vec2& point_of_grow, int& id, TreePartType tp, double length_coef = 1.0, double width_coef = 1.0);
+	const AddingResult AddElement(const int branch_id, const Vec2& point_of_grow, int& id, TreePartType tp, double length_coef = 1.0);
 
 	void GetElements(std::vector<std::pair<Vec2, Vec2>>& elems, TreePartType tp) const;
+    void GetElements(std::vector<int>& elems, TreePartType tp) const;
 	TreeElement& GetElementByID(int& id);
 	const TreeElement& GetElementByID(int& id) const;
 
@@ -74,12 +77,13 @@ public:
 	bool MakeTree(const Vec2& start_point);
 
 	// функции для добавления элементов
-	const AddingResult AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef = 1.0, double width_coef = 0.5);
+	const AddingResult AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef = 1.0);
 	const AddingResult AddLeaf(const int branch_id, const Vec2& point_of_grow, int& id);
 	const AddingResult AddRoot();
 
 	// функции для получения элементов (заменить на итератор)
 	void GetBranches(std::vector<std::pair<Vec2, Vec2>>& branches) const;
+    void GetBranches(std::vector<int>& branches) const;
 	void GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const;
 	void GetRoot(double& current_length) const;
 

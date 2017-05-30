@@ -50,7 +50,7 @@ void TreeInternal::Initialize(const Vec2& start_point)
 	fast_navigation_map[0] = root;
 }
 
-const AddingResult TreeInternal::AddElement(const int branch_id, const Vec2& vec_grow, int& id, TreePartType tp, double length_coef, double width_coef)
+const AddingResult TreeInternal::AddElement(const int branch_id, const Vec2& vec_grow, int& id, TreePartType tp, double length_coef)
 {
 	auto found = fast_navigation_map.find(branch_id);
 	if (found == fast_navigation_map.end())
@@ -72,7 +72,8 @@ const AddingResult TreeInternal::AddElement(const int branch_id, const Vec2& vec
 	{
 	case TreePartType::Branch:
 	{
-		new_internals.width = width_coef * old_internals.width;
+        // ветка всегда добавляется с постоянной толщиной
+		new_internals.width = new_branch_width;
 		new_internals.length = (old_internals.length > 0) ? (length_coef * old_internals.length) : length_coef;
 		break;
 	}
@@ -122,6 +123,20 @@ void TreeInternal::GetElements(std::vector<std::pair<Vec2, Vec2>>& elems, TreePa
 			elems.push_back(std::make_pair(internals.start_point, internals.end_point));
 		}
 	}
+}
+
+void TreeInternal::GetElements(std::vector<int>& elems, TreePartType tp) const
+{
+    elems.clear();
+    // переделать на обход в глубину
+    for (auto i = 0; i != fast_navigation_map.size(); ++i)
+    {
+        const TreeElement& internals = fast_navigation_map.at(i)->GetInternals();
+        if (internals.type == tp)
+        {
+            elems.push_back(internals.element_id);
+        }
+    }
 }
 
 TreeElement& TreeInternal::GetElementByID(int& id)
@@ -194,9 +209,9 @@ bool TreeInterface::MakeTree(const Vec2& start_point)
 	return true;
 }
 
-const AddingResult TreeInterface::AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef, double width_coef)
+const AddingResult TreeInterface::AddBranch(const int branch_id, const Vec2& point_of_grow, int& id, double length_coef)
 {
-	return tree->AddElement(branch_id, point_of_grow, id, TreePartType::Branch, length_coef, width_coef);
+	return tree->AddElement(branch_id, point_of_grow, id, TreePartType::Branch, length_coef);
 }
 
 const AddingResult TreeInterface::AddLeaf(const int branch_id, const Vec2& point_of_grow, int& id)
@@ -213,6 +228,11 @@ const AddingResult TreeInterface::AddRoot()
 void TreeInterface::GetBranches(std::vector<std::pair<Vec2, Vec2>>& branches) const
 {
 	tree->GetElements(branches, TreePartType::Branch);
+}
+
+void TreeInterface::GetBranches(std::vector<int>& branches) const
+{
+    tree->GetElements(branches, TreePartType::Branch);
 }
 
 void TreeInterface::GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const

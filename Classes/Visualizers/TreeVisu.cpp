@@ -50,25 +50,30 @@ void TreeVisu::Build(const TreePtr& tree) {
     BuildTreeRoot();
 }
 
-void TreeVisu::update(float delta){
+void TreeVisu::update(float delta) {
 //    log("TreeVisu::update: %lf", delta);
     
     draw_node_->clear();
     
-    // рисуем ветки
-	std::vector<std::pair<Vec2, Vec2>> segments;
-	tree_->GetBranches(segments);
-    for (auto& s : segments)
-        draw_node_->drawSegment(s.first, s.second, 4, branch_color);
-    
+    DrawBranches(delta);
     DrawLeafs(delta);
-    
     DrawGrowButtons(delta);
-    
     // рисует ветки в процессе добавления
     DrawTemporaryElements(delta);
     
     DrawTreeRoot(delta);
+}
+
+void TreeVisu::DrawBranches(float delta) {
+    // рисуем ветки
+    std::vector<int> branches_id;
+    tree_->GetBranches(branches_id);
+    
+    for (auto& id : branches_id) {        
+        auto b = tree_->GetElementByID(id);
+        const float width_coef = 4.f;
+        draw_node_->drawSegment(b.start_point, b.end_point, b.width * width_coef, branch_color);
+    }
 }
 
 void TreeVisu::DrawLeafs(float delta) {
@@ -219,11 +224,6 @@ void TreeVisu::OnStartAddingBranch(int parent_id, Button* node) {
         }
         this->tmp_draw_branch_.clear();
     });
-}
-
-// вызывается когда пользователь решил добавить ветку
-void TreeVisu::OnAddBranch(int parent_id, const Vec2& b, const Vec2& e) {
-    
 }
 
 // рисует ветки в процессе добавления
