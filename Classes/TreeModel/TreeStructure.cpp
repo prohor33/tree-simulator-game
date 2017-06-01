@@ -252,6 +252,12 @@ void TreeInterface::GetCurrentConsumption(TreeResourceType t, double& val) const
 	val += ResourceKeeper::GetConsumption(tree_root, t);
 }
 
+void TreeInterface::GetElementConsumption(int id, TreeResourceType t, double& val) const
+{
+    TreeElement element = GetElementByID(id);
+    val = ResourceKeeper::GetConsumption(element, t);
+}
+
 void TreeInterface::GetRoot(double& current_length) const
 {
 	current_length = tree_root.length;

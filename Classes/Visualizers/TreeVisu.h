@@ -1,6 +1,9 @@
 #pragma once
 #include "../TreeModel/TreeStructure.h"
 
+class LeafsVisu;
+class BranchesVisu;
+
 class TreeVisu : public Layer {
 public:
     //static Layer* CreateLayer(const TreeInterface& tree);
@@ -9,33 +12,20 @@ public:
     CREATE_FUNC(TreeVisu);
     
     void update(float) override;
+    void AddLeaf(int parent_id);
     
 private:
 	void Build(const TreePtr& tree);
     void BuildTreeRoot();
-    void DrawBranches(float delta);
-    // рисует кнопки в точках возможного роста
-    void DrawGrowButtons(float delta);
-    void GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size);
-    void OnAddLeaf(int parent_id);
-    void DrawLeafs(float delta);
-    // вызывается при клике на иконку ветку добавления
-    void OnStartAddingBranch(int parent_id, cocos2d::ui::Button* node);
-    // рисует ветки в процессе добавления
-    void DrawTemporaryElements(float delta);
+
     void DrawTreeRoot(float delta);
     
-    DrawNode* draw_node_;   // рисованное дерево
-    Node* leafs_;
     Node* tree_root_;
-    Node* gui_root_;        // кнопочки на дереве
-    Node* grow_buttons_;
-    Node* tree_root_buttons_;
-    std::vector<int> grow_buttons_ids_; // идентификаторы вершин кнопок
     Node* top_level_gui_;   // временные диалоги и прочее
-    
-    // данные для временной отрисовки
-    std::vector<Point> tmp_draw_branch_;
+    Node* tree_root_buttons_;
+    Node* gui_root_;        // по идее здесь будут все постоянные кнопочки
 
 	TreePtr tree_;
+    LeafsVisu* leafs_visu_;
+    BranchesVisu* branches_visu_;
 };

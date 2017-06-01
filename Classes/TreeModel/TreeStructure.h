@@ -89,6 +89,7 @@ public:
 
 	void GetCurrentProduction(TreeResourceType t, double& val) const;
 	void GetCurrentConsumption(TreeResourceType t, double& val) const;
+    void GetElementConsumption(int id, TreeResourceType t, double& val) const;
 
 	void GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const;
 

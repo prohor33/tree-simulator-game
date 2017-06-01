@@ -76,6 +76,10 @@
 		54C82EE01ECA5B3500193482 /* MeadowVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */; };
 		54C82EE21ECBBD1800193482 /* TreeCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE11ECBBD1800193482 /* TreeCommon.cpp */; };
 		54C82EE31ECBBD1800193482 /* TreeCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE11ECBBD1800193482 /* TreeCommon.cpp */; };
+		54C82EE81EE0CA3B00193482 /* BranchesVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE41EE0CA3B00193482 /* BranchesVisu.cpp */; };
+		54C82EE91EE0CA3B00193482 /* BranchesVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE41EE0CA3B00193482 /* BranchesVisu.cpp */; };
+		54C82EEA1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE61EE0CA3B00193482 /* LeafsVisu.cpp */; };
+		54C82EEB1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE61EE0CA3B00193482 /* LeafsVisu.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -194,6 +198,10 @@
 		54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeadowVisu.cpp; sourceTree = "<group>"; };
 		54C82EDE1ECA5B3500193482 /* MeadowVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeadowVisu.h; sourceTree = "<group>"; };
 		54C82EE11ECBBD1800193482 /* TreeCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreeCommon.cpp; sourceTree = "<group>"; };
+		54C82EE41EE0CA3B00193482 /* BranchesVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BranchesVisu.cpp; sourceTree = "<group>"; };
+		54C82EE51EE0CA3B00193482 /* BranchesVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BranchesVisu.h; sourceTree = "<group>"; };
+		54C82EE61EE0CA3B00193482 /* LeafsVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LeafsVisu.cpp; sourceTree = "<group>"; };
+		54C82EE71EE0CA3B00193482 /* LeafsVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeafsVisu.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -414,6 +422,10 @@
 		54777F6B1EB13C7E000887FD /* Visualizers */ = {
 			isa = PBXGroup;
 			children = (
+				54C82EE41EE0CA3B00193482 /* BranchesVisu.cpp */,
+				54C82EE51EE0CA3B00193482 /* BranchesVisu.h */,
+				54C82EE61EE0CA3B00193482 /* LeafsVisu.cpp */,
+				54C82EE71EE0CA3B00193482 /* LeafsVisu.h */,
 				54C82EDD1ECA5B3500193482 /* MeadowVisu.cpp */,
 				54C82EDE1ECA5B3500193482 /* MeadowVisu.h */,
 				54C82EC71EB5456400193482 /* Utils.cpp */,
@@ -596,7 +608,9 @@
 				54777F6E1EB13C7E000887FD /* MeadowScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				54C82EC91EB5456400193482 /* Utils.cpp in Sources */,
+				54C82EE81EE0CA3B00193482 /* BranchesVisu.cpp in Sources */,
 				54777F751EB1458D000887FD /* Game.cpp in Sources */,
+				54C82EEA1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */,
 				54777F701EB13C7E000887FD /* TreeVisu.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				54C82ED91ECA56DD00193482 /* TreeResources.cpp in Sources */,
@@ -611,12 +625,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54C82EEB1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */,
 				54777F711EB13C7E000887FD /* TreeVisu.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				54C82EDA1ECA56DD00193482 /* TreeResources.cpp in Sources */,
 				54C82EDC1ECA56DD00193482 /* TreeStructure.cpp in Sources */,
 				54C82EE31ECBBD1800193482 /* TreeCommon.cpp in Sources */,
 				54C82ECA1EB5456400193482 /* Utils.cpp in Sources */,
+				54C82EE91EE0CA3B00193482 /* BranchesVisu.cpp in Sources */,
 				54777F761EB1458D000887FD /* Game.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				54777F6F1EB13C7E000887FD /* MeadowScene.cpp in Sources */,
