@@ -86,15 +86,18 @@ public:
     void GetBranches(std::vector<int>& branches) const;
 	void GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const;
 	void GetRoot(double& current_length) const;
+    void GetElements(std::vector<int>& elements) const;
 
 	void GetCurrentProduction(TreeResourceType t, double& val) const;
 	void GetCurrentConsumption(TreeResourceType t, double& val) const;
+    void GetElementProduction(int id, TreeResourceType t, double& val) const;
     void GetElementConsumption(int id, TreeResourceType t, double& val) const;
 
 	void GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const;
 
 	TreeElement& GetElementByID(int& id);
 	const TreeElement& GetElementByID(int& id) const;
+    const TreeElement& GetRoot() const;
     
     void Update(float dt) {};
 

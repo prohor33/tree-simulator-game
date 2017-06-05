@@ -132,7 +132,7 @@ void TreeInternal::GetElements(std::vector<int>& elems, TreePartType tp) const
     for (auto i = 0; i != fast_navigation_map.size(); ++i)
     {
         const TreeElement& internals = fast_navigation_map.at(i)->GetInternals();
-        if (internals.type == tp)
+        if (internals.type == tp || tp == TreePartType::TypeUndefined)
         {
             elems.push_back(internals.element_id);
         }
@@ -252,6 +252,12 @@ void TreeInterface::GetCurrentConsumption(TreeResourceType t, double& val) const
 	val += ResourceKeeper::GetConsumption(tree_root, t);
 }
 
+void TreeInterface::GetElementProduction(int id, TreeResourceType t, double& val) const
+{
+    TreeElement element = GetElementByID(id);
+    val = ResourceKeeper::GetProduction(element, t);
+}
+
 void TreeInterface::GetElementConsumption(int id, TreeResourceType t, double& val) const
 {
     TreeElement element = GetElementByID(id);
@@ -261,6 +267,11 @@ void TreeInterface::GetElementConsumption(int id, TreeResourceType t, double& va
 void TreeInterface::GetRoot(double& current_length) const
 {
 	current_length = tree_root.length;
+}
+
+void TreeInterface::GetElements(std::vector<int>& elements) const
+{
+    tree->GetElements(elements, TreePartType::TypeUndefined);
 }
 
 void TreeInterface::GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const
@@ -278,3 +289,7 @@ const TreeElement& TreeInterface::GetElementByID(int& id) const
 	return tree->GetElementByID(id);
 }
 
+const TreeElement& TreeInterface::GetRoot() const
+{
+    return tree_root;
+}

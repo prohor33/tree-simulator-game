@@ -3,6 +3,7 @@
 
 class LeafsVisu;
 class BranchesVisu;
+class ResourceConsVisu;
 
 class TreeVisu : public Layer {
 public:
@@ -28,4 +29,6 @@ private:
 	TreePtr tree_;
     LeafsVisu* leafs_visu_;
     BranchesVisu* branches_visu_;
+    // визуализирует расход ресурсов элементами
+    ResourceConsVisu* res_cons_visu_;
 };

@@ -14,7 +14,7 @@ Game* Game::instance() {
     return instance_.get();
 }
 
-Game::Game() {}
+Game::Game() : game_speed_(1.) {}
 
 void Game::Start() {
     
@@ -38,7 +38,7 @@ void Game::Start() {
 
 
     ResourcesPtr resource_interface = std::make_shared<ResourceInterface>();
-	resource_interface->MakeResources(10.0, 10.0);
+	resource_interface->MakeResources(100.0, 100.0);
 
     // create a scene. it's an autorelease object
     auto scene = MeadowScene::CreateScene(tree_interface, resource_interface);
@@ -52,3 +52,14 @@ void Game::Exit() {
     exit(0);
 #endif
 }
+
+// скорость игры
+double Game::game_speed() const {
+    return game_speed_;
+}
+
+// коэффициент получения и траты ресурсов
+double Game::resources_coef() const {
+    return game_speed() * 0.1;
+}
+

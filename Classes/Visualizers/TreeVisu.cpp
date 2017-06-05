@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include "LeafsVisu.h"
 #include "BranchesVisu.h"
+#include "ResourceConsVisu.h"
 using namespace cocos2d::ui;
 
 namespace {
@@ -48,8 +49,12 @@ void TreeVisu::Build(const TreePtr& tree) {
     gui_root_->addChild(top_level_gui_);
     
     BuildTreeRoot();
+    
+    res_cons_visu_ = ResourceConsVisu::CreateLayer(tree_, this);
+    addChild(res_cons_visu_);
 }
 
+// обновление отрисовки
 void TreeVisu::update(float delta) {
 //    log("TreeVisu::update: %lf", delta);
     
@@ -84,6 +89,8 @@ void TreeVisu::DrawTreeRoot(float delta) {
 void TreeVisu::AddLeaf(int parent_id) {
     leafs_visu_->AddLeaf(parent_id);
 }
+
+
 
 
 
