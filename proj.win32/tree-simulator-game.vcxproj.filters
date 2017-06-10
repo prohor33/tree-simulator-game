@@ -51,6 +51,15 @@
     <ClCompile Include="..\Classes\TreeModel\TreeCommon.cpp">
       <Filter>tree_model</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\BranchesVisu.cpp">
+      <Filter>visualizers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\LeafsVisu.cpp">
+      <Filter>visualizers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Visualizers\ResourceConsVisu.cpp">
+      <Filter>visualizers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -81,6 +90,15 @@
       <Filter>tree_model</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Visualizers\MeadowVisu.h">
+      <Filter>visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\BranchesVisu.h">
+      <Filter>visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\LeafsVisu.h">
+      <Filter>visualizers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Visualizers\ResourceConsVisu.h">
       <Filter>visualizers</Filter>
     </ClInclude>
   </ItemGroup>

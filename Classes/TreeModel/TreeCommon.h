@@ -42,6 +42,9 @@ public:
 	double height;       // высота элемента (при наличии)
 
 	double water_con;    // содержание воды на каждый элемент
+
+	void MoveElement(const Vec2& move_vector);
+	void StretchElement(float coef, Vec2& stretch_vector);
 };
 
 ////////////////////////////////////////////////////////////////////

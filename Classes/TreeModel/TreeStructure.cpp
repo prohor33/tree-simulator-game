@@ -195,6 +195,41 @@ void TreeInternal::GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points)
 	}
 }
 
+void TreeInternal::GrowTreePartByParameter(float r, std::shared_ptr<TreeNode> branch_start)
+{
+	Vec2 move_vector;
+	branch_start->GetInternals().StretchElement(r, move_vector);
+	for (auto i = 0; i != branch_start->GetChildrenAmount(); ++i)
+	{
+		auto child = branch_start->GetChild(i);
+		MoveTreePartOnVector(move_vector, child);
+		GrowTreePartByParameter(r, child);
+	}
+}
+
+void TreeInternal::GrowTreeByParameter(float r)
+{
+	GrowTreePartByParameter(r, root);
+}
+
+void TreeInternal::MoveTreePartOnVector(const Vec2& vec, std::shared_ptr<TreeNode> branch_start)
+{
+	branch_start->GetInternals().MoveElement(vec);
+	for (auto i = 0; i != branch_start->GetChildrenAmount(); ++i)
+		MoveTreePartOnVector(vec, branch_start->GetChild(i));
+}
+
+double TreeInternal::GetCurrentGlucoseCost(float dt)
+{
+	double res = 0;
+	for (const auto& ent : fast_navigation_map)
+	{
+		res += ResourceKeeper::GetConsumption(ent.second->GetInternals(), Glucose);
+	}
+	res *= dt;
+	return res;
+}
+
 ///////////////
 
 bool TreeInterface::MakeTree(const Vec2& start_point)
@@ -292,4 +327,14 @@ const TreeElement& TreeInterface::GetElementByID(int& id) const
 const TreeElement& TreeInterface::GetRoot() const
 {
     return tree_root;
+}
+
+void TreeInterface::Update(float dt)
+{
+	tree->GrowTreeByParameter(dt);
+}
+
+double TreeInterface::GetGlucoseCostForUpdate(float dt)
+{
+	return tree->GetCurrentGlucoseCost(dt);
 }

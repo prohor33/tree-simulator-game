@@ -59,7 +59,9 @@ void MeadowVisu::Build(const ResourcesPtr& resource, const TreePtr& tree) {
 
 void MeadowVisu::update(float delta){
     UpdateInfo(delta);
-    tree_->Update(delta);
+	// пришлось уменьшить во много раз, ибо растет очень быстро
+	// TODO: настроить точнее
+    tree_->Update(delta / 150.0);
 }
 
 // рисует количество ресурсов

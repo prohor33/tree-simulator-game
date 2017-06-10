@@ -64,6 +64,12 @@ public:
 	void GetElementsConsumption(TreeResourceType t, double& val) const;
 	void GetElementsProduction(TreeResourceType t, double& val) const;
 
+	void MoveTreePartOnVector(const Vec2& vec, std::shared_ptr<TreeNode> branch_start);
+	void GrowTreePartByParameter(float r, std::shared_ptr<TreeNode> branch_start);
+	void GrowTreeByParameter(float r);
+
+	double GetCurrentGlucoseCost(float dt);
+
 private:
 	std::shared_ptr<TreeNode> root;
 	std::map<int, std::shared_ptr<TreeNode>> fast_navigation_map;	
@@ -99,7 +105,10 @@ public:
 	const TreeElement& GetElementByID(int& id) const;
     const TreeElement& GetRoot() const;
     
-    void Update(float dt) {};
+	// "рост" дерева в некоторое число раз относительно прежнего состояния
+	void Update(float dt);
+	// получить стоимость роста для дерева
+	double GetGlucoseCostForUpdate(float dt);
 
 private:
 	std::shared_ptr<TreeInternal> tree;
