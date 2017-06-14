@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MeadowVisu.h"
 #include "Utils.h"
+#include "../Game.h"
 using namespace cocos2d::ui;
 
 
@@ -59,9 +60,13 @@ void MeadowVisu::Build(const ResourcesPtr& resource, const TreePtr& tree) {
 
 void MeadowVisu::update(float delta){
     UpdateInfo(delta);
-	// пришлось уменьшить во много раз, ибо растет очень быстро
-	// TODO: настроить точнее
-    tree_->Update(delta / 150.0);
+    
+    double res_for_update = tree_->GetGlucoseCostForUpdate(delta * Game::instance()->resources_coef());
+    double res = resource_->GetCurrentResource(TreeResourceType::Glucose);
+    if (res_for_update < res) {
+        // растет только если хватает ресурсов
+        tree_->Update(delta);
+    }
 }
 
 // рисует количество ресурсов

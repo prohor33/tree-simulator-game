@@ -38,7 +38,7 @@ void Game::Start() {
 
 
     ResourcesPtr resource_interface = std::make_shared<ResourceInterface>();
-	resource_interface->MakeResources(100.0, 100.0);
+	resource_interface->MakeResources(1.0, 1.0);
 
     // create a scene. it's an autorelease object
     auto scene = MeadowScene::CreateScene(tree_interface, resource_interface);

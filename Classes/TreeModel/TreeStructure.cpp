@@ -331,7 +331,7 @@ const TreeElement& TreeInterface::GetRoot() const
 
 void TreeInterface::Update(float dt)
 {
-	tree->GrowTreeByParameter(dt);
+	tree->GrowTreeByParameter(dt * tree_grow_speed);
 }
 
 double TreeInterface::GetGlucoseCostForUpdate(float dt)

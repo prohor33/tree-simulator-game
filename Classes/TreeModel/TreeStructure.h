@@ -4,6 +4,8 @@
 ////////////////////////////////////////////////////////////////////
 
 const double new_branch_width = 1.0;
+// TODO: настроить точнее
+const double tree_grow_speed = 1 / 150.f;
 
 // элемент дерева
 class TreeNode
