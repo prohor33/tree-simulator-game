@@ -4,6 +4,9 @@
 #include "../Visualizers/TreeVisu.h"
 #include "../Visualizers/MeadowVisu.h"
 #include "../Game.h"
+#include "../3rd/GestureRecognizer/PinchGestureRecognizer.h"
+#include "../Visualizers/Utils.h"
+
 
 namespace {
     const Color4F field_color = Color4F(Color3B(0, 223, 3));
@@ -21,6 +24,13 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     tree_int_ = tree_int;
     res_int_ = res_int;
     
+    background_ = Node::create();
+    middleground_ = Node::create();
+    foreground_ = Node::create();
+    addChild(background_);
+    addChild(middleground_);
+    addChild(foreground_);
+    
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -35,7 +45,7 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+    foreground_->addChild(menu, 1);
 
 
     // add a label shows "Hello World"
@@ -48,7 +58,7 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
                             origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(label, 1);
+    foreground_->addChild(label, 1);
     
     
     Size w_size = Director::getInstance()->getVisibleSize();
@@ -56,7 +66,7 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     
     // трава
     DrawNode* draw_node = DrawNode::create();
-    this->addChild(draw_node);
+    middleground_->addChild(draw_node);
     const float grass_h = w_size.height / 10.f;
     Size grass_size(w_size.width, grass_h);
     draw_node->drawSolidRect(w_origin, w_origin + grass_size, field_color);
@@ -70,15 +80,17 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     
     auto tree_visu = TreeVisu::CreateLayer(tree_int);
     tree_visu->setPosition(tree_p);
-    this->addChild(tree_visu);
+    middleground_->addChild(tree_visu);
     
     // ресурсы + прочая информация
     auto meadow_visu = MeadowVisu::CreateLayer(res_int, tree_int);
-    this->addChild(meadow_visu);
+    foreground_->addChild(meadow_visu);
 
     
     const float tree_update_interval = 0.1;
     schedule(schedule_selector(MeadowScene::UpdateTree), tree_update_interval);
+    
+    AddScaling(middleground_);
 }
 
 void MeadowScene::UpdateTree(float dt) {
@@ -112,6 +124,46 @@ void MeadowScene::UpdateTree(float dt) {
 
 void MeadowScene::MenuCloseCallback(Ref* pSender) {
     Game::instance()->Exit();
+}
+
+void MeadowScene::AddScaling(Node* scale_node) {
+    PinchGestureRecognizer * pinch = PinchGestureRecognizer::create();
+    pinch->setTarget([scale_node](CCGesture* gesture) {
+        CCPinch* pinch = (CCPinch*) gesture;
+        assert(!isnan(pinch->coef));
+        if (pinch->coef < 1.f && (scale_node->getScale() * pinch->coef <= 1.f)) {
+            scale_node->setScale(1.f);
+            scale_node->setPosition(Vec2());
+            return;
+        }
+        
+        scale_node->setPosition(scale_node->getPosition() - (pinch->position - scale_node->getPosition()) * (pinch->coef - 1.f));
+        visu_utils::AdditionalScale(scale_node, pinch->coef);
+    });
+    this->addChild(pinch);
+    
+    //    auto keyboard_listener = EventListenerKeyboard::create();
+    //    keyboard_listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* event) {
+    //        switch (keyCode) {
+    //            case EventKeyboard::KeyCode::KEY_PLUS:
+    //            {
+    //                visu_utils::AdditionalScale(this, 1.01f);
+    //                return true;
+    //            }
+    //            case EventKeyboard::KeyCode::KEY_MINUS:
+    //            {
+    //                visu_utils::AdditionalScale(this, 1.f / 1.01f);
+    //                return true;
+    //            }
+    //
+    //            default:
+    //                break;
+    //        }
+    //        return false;
+    //    };
+    //
+    //    auto director = Director::getInstance();
+    //    director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboard_listener, this);
 }
 
 

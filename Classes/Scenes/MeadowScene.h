@@ -18,7 +18,11 @@ public:
 private:
 	void Build(const TreePtr& tree_int, const ResourcesPtr& res_int);
     void UpdateTree(float dt);
+    void AddScaling(Node* scale_node);
     
     TreePtr tree_int_;
     ResourcesPtr res_int_;
+    Node* background_;      // задник, недвижим
+    Node* middleground_;    // все остальное, может быть увеличено
+    Node* foreground_;      // передник, недвижим
 };

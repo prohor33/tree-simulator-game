@@ -82,6 +82,18 @@
 		54C82EEB1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EE61EE0CA3B00193482 /* LeafsVisu.cpp */; };
 		54C82EEE1EE205C600193482 /* ResourceConsVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EEC1EE205C600193482 /* ResourceConsVisu.cpp */; };
 		54C82EEF1EE205C600193482 /* ResourceConsVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EEC1EE205C600193482 /* ResourceConsVisu.cpp */; };
+		54C82F011EE6017B00193482 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF51EE6017A00193482 /* GestureRecognizer.cpp */; };
+		54C82F021EE6017B00193482 /* GestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF51EE6017A00193482 /* GestureRecognizer.cpp */; };
+		54C82F031EE6017B00193482 /* LongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF71EE6017A00193482 /* LongPressGestureRecognizer.cpp */; };
+		54C82F041EE6017B00193482 /* LongPressGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF71EE6017A00193482 /* LongPressGestureRecognizer.cpp */; };
+		54C82F051EE6017B00193482 /* PanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF91EE6017A00193482 /* PanGestureRecognizer.cpp */; };
+		54C82F061EE6017B00193482 /* PanGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EF91EE6017A00193482 /* PanGestureRecognizer.cpp */; };
+		54C82F071EE6017B00193482 /* PinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFB1EE6017A00193482 /* PinchGestureRecognizer.cpp */; };
+		54C82F081EE6017B00193482 /* PinchGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFB1EE6017A00193482 /* PinchGestureRecognizer.cpp */; };
+		54C82F091EE6017B00193482 /* SwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFD1EE6017A00193482 /* SwipeGestureRecognizer.cpp */; };
+		54C82F0A1EE6017B00193482 /* SwipeGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFD1EE6017A00193482 /* SwipeGestureRecognizer.cpp */; };
+		54C82F0B1EE6017B00193482 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFF1EE6017A00193482 /* TapGestureRecognizer.cpp */; };
+		54C82F0C1EE6017B00193482 /* TapGestureRecognizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54C82EFF1EE6017A00193482 /* TapGestureRecognizer.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -206,6 +218,18 @@
 		54C82EE71EE0CA3B00193482 /* LeafsVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeafsVisu.h; sourceTree = "<group>"; };
 		54C82EEC1EE205C600193482 /* ResourceConsVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ResourceConsVisu.cpp; sourceTree = "<group>"; };
 		54C82EED1EE205C600193482 /* ResourceConsVisu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceConsVisu.h; sourceTree = "<group>"; };
+		54C82EF51EE6017A00193482 /* GestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82EF61EE6017A00193482 /* GestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureRecognizer.h; sourceTree = "<group>"; };
+		54C82EF71EE6017A00193482 /* LongPressGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LongPressGestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82EF81EE6017A00193482 /* LongPressGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		54C82EF91EE6017A00193482 /* PanGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanGestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82EFA1EE6017A00193482 /* PanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanGestureRecognizer.h; sourceTree = "<group>"; };
+		54C82EFB1EE6017A00193482 /* PinchGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PinchGestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82EFC1EE6017A00193482 /* PinchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinchGestureRecognizer.h; sourceTree = "<group>"; };
+		54C82EFD1EE6017A00193482 /* SwipeGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SwipeGestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82EFE1EE6017A00193482 /* SwipeGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeGestureRecognizer.h; sourceTree = "<group>"; };
+		54C82EFF1EE6017A00193482 /* TapGestureRecognizer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TapGestureRecognizer.cpp; sourceTree = "<group>"; };
+		54C82F001EE6017A00193482 /* TapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapGestureRecognizer.h; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -354,6 +378,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				54C82EF31EE6017A00193482 /* 3rd */,
 				54777F771EB147D2000887FD /* TreeModel */,
 				54777F731EB1458D000887FD /* Game.cpp */,
 				54777F741EB1458D000887FD /* Game.h */,
@@ -453,6 +478,33 @@
 				54C82ED81ECA56DD00193482 /* TreeStructure.h */,
 			);
 			path = TreeModel;
+			sourceTree = "<group>";
+		};
+		54C82EF31EE6017A00193482 /* 3rd */ = {
+			isa = PBXGroup;
+			children = (
+				54C82EF41EE6017A00193482 /* GestureRecognizer */,
+			);
+			path = 3rd;
+			sourceTree = "<group>";
+		};
+		54C82EF41EE6017A00193482 /* GestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				54C82EF51EE6017A00193482 /* GestureRecognizer.cpp */,
+				54C82EF61EE6017A00193482 /* GestureRecognizer.h */,
+				54C82EF71EE6017A00193482 /* LongPressGestureRecognizer.cpp */,
+				54C82EF81EE6017A00193482 /* LongPressGestureRecognizer.h */,
+				54C82EF91EE6017A00193482 /* PanGestureRecognizer.cpp */,
+				54C82EFA1EE6017A00193482 /* PanGestureRecognizer.h */,
+				54C82EFB1EE6017A00193482 /* PinchGestureRecognizer.cpp */,
+				54C82EFC1EE6017A00193482 /* PinchGestureRecognizer.h */,
+				54C82EFD1EE6017A00193482 /* SwipeGestureRecognizer.cpp */,
+				54C82EFE1EE6017A00193482 /* SwipeGestureRecognizer.h */,
+				54C82EFF1EE6017A00193482 /* TapGestureRecognizer.cpp */,
+				54C82F001EE6017A00193482 /* TapGestureRecognizer.h */,
+			);
+			path = GestureRecognizer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -613,6 +665,8 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				54777F6E1EB13C7E000887FD /* MeadowScene.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				54C82F051EE6017B00193482 /* PanGestureRecognizer.cpp in Sources */,
+				54C82F0B1EE6017B00193482 /* TapGestureRecognizer.cpp in Sources */,
 				54C82EC91EB5456400193482 /* Utils.cpp in Sources */,
 				54C82EE81EE0CA3B00193482 /* BranchesVisu.cpp in Sources */,
 				54777F751EB1458D000887FD /* Game.cpp in Sources */,
@@ -621,10 +675,14 @@
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				54C82ED91ECA56DD00193482 /* TreeResources.cpp in Sources */,
 				54C82EEE1EE205C600193482 /* ResourceConsVisu.cpp in Sources */,
+				54C82F071EE6017B00193482 /* PinchGestureRecognizer.cpp in Sources */,
 				54C82EE21ECBBD1800193482 /* TreeCommon.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				54C82F011EE6017B00193482 /* GestureRecognizer.cpp in Sources */,
 				54C82EDF1ECA5B3500193482 /* MeadowVisu.cpp in Sources */,
 				54C82EDB1ECA56DD00193482 /* TreeStructure.cpp in Sources */,
+				54C82F091EE6017B00193482 /* SwipeGestureRecognizer.cpp in Sources */,
+				54C82F031EE6017B00193482 /* LongPressGestureRecognizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,11 +690,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54C82F0A1EE6017B00193482 /* SwipeGestureRecognizer.cpp in Sources */,
 				54C82EEB1EE0CA3B00193482 /* LeafsVisu.cpp in Sources */,
 				54777F711EB13C7E000887FD /* TreeVisu.cpp in Sources */,
+				54C82F0C1EE6017B00193482 /* TapGestureRecognizer.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				54C82F021EE6017B00193482 /* GestureRecognizer.cpp in Sources */,
 				54C82EDA1ECA56DD00193482 /* TreeResources.cpp in Sources */,
+				54C82F081EE6017B00193482 /* PinchGestureRecognizer.cpp in Sources */,
 				54C82EDC1ECA56DD00193482 /* TreeStructure.cpp in Sources */,
+				54C82F041EE6017B00193482 /* LongPressGestureRecognizer.cpp in Sources */,
 				54C82EE31ECBBD1800193482 /* TreeCommon.cpp in Sources */,
 				54C82ECA1EB5456400193482 /* Utils.cpp in Sources */,
 				54C82EE91EE0CA3B00193482 /* BranchesVisu.cpp in Sources */,
@@ -645,6 +708,7 @@
 				54777F6F1EB13C7E000887FD /* MeadowScene.cpp in Sources */,
 				54C82EE01ECA5B3500193482 /* MeadowVisu.cpp in Sources */,
 				54C82EEF1EE205C600193482 /* ResourceConsVisu.cpp in Sources */,
+				54C82F061EE6017B00193482 /* PanGestureRecognizer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

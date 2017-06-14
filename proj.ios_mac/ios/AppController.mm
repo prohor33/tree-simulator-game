@@ -23,6 +23,7 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#import "platform/ios/CCEAGLView-ios.h"
 #import "AppController.h"
 #import "cocos2d.h"
 #import "AppDelegate.h"
@@ -50,10 +51,22 @@ static AppDelegate s_sharedApplication;
 
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+    
+    // Init the CCEAGLView
+    CCEAGLView *eaglView = [CCEAGLView viewWithFrame: [window bounds]
+                                         pixelFormat: (NSString*)cocos2d::GLViewImpl::_pixelFormat
+                                         depthFormat: cocos2d::GLViewImpl::_depthFormat
+                                  preserveBackbuffer: NO
+                                          sharegroup: nil
+                                       multiSampling: NO
+                                     numberOfSamples: 0 ];
+    
+    [eaglView setMultipleTouchEnabled:YES];
 
     // Use RootViewController to manage CCEAGLView
     _viewController = [[RootViewController alloc]init];
     _viewController.wantsFullScreenLayout = YES;
+    _viewController.view = eaglView;
     
 
     // Set RootViewController to window
