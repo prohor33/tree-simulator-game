@@ -5,6 +5,7 @@
 #include "../Visualizers/MeadowVisu.h"
 #include "../Game.h"
 #include "../3rd/GestureRecognizer/PinchGestureRecognizer.h"
+#include "../3rd/GestureRecognizer/PanGestureRecognizer.h"
 #include "../Visualizers/Utils.h"
 
 
@@ -28,6 +29,10 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     middleground_ = Node::create();
     foreground_ = Node::create();
     addChild(background_);
+    
+    // добавляем хэндлеры увеличения и перемещения
+    AddScaling(middleground_);
+    
     addChild(middleground_);
     addChild(foreground_);
     
@@ -45,7 +50,7 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
-    foreground_->addChild(menu, 1);
+    foreground_->addChild(menu);
 
 
     // add a label shows "Hello World"
@@ -58,7 +63,7 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
                             origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
-    foreground_->addChild(label, 1);
+    foreground_->addChild(label);
     
     
     Size w_size = Director::getInstance()->getVisibleSize();
@@ -89,8 +94,6 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     
     const float tree_update_interval = 0.1;
     schedule(schedule_selector(MeadowScene::UpdateTree), tree_update_interval);
-    
-    AddScaling(middleground_);
 }
 
 void MeadowScene::UpdateTree(float dt) {
@@ -127,8 +130,8 @@ void MeadowScene::MenuCloseCallback(Ref* pSender) {
 }
 
 void MeadowScene::AddScaling(Node* scale_node) {
-    PinchGestureRecognizer * pinch = PinchGestureRecognizer::create();
-    pinch->setTarget([scale_node](CCGesture* gesture) {
+    PinchGestureRecognizer * pinch_rec = PinchGestureRecognizer::create();
+    pinch_rec->setTarget([scale_node](CCGesture* gesture) {
         CCPinch* pinch = (CCPinch*) gesture;
         assert(!isnan(pinch->coef));
         if (pinch->coef < 1.f && (scale_node->getScale() * pinch->coef <= 1.f)) {
@@ -140,7 +143,15 @@ void MeadowScene::AddScaling(Node* scale_node) {
         scale_node->setPosition(scale_node->getPosition() - (pinch->position - scale_node->getPosition()) * (pinch->coef - 1.f));
         visu_utils::AdditionalScale(scale_node, pinch->coef);
     });
-    this->addChild(pinch);
+    this->addChild(pinch_rec);
+    
+    
+    PanGestureRecognizer* pan_rec = PanGestureRecognizer::create();
+    pan_rec->setTarget([scale_node](CCGesture* gesture) {
+        CCPan* pan = (CCPan*) gesture;
+        scale_node->setPosition(scale_node->getPosition() + pan->delta);
+    });
+    this->addChild(pan_rec);
     
     //    auto keyboard_listener = EventListenerKeyboard::create();
     //    keyboard_listener->onKeyPressed = [&](EventKeyboard::KeyCode keyCode, Event* event) {

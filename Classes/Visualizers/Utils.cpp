@@ -393,6 +393,7 @@ void AddOnMoveListener(Node* s, OnClickLocationF on_start, OnMoveF on_move, OnCl
     
     listener->onTouchMoved = [=](Touch* touch, Event* event) {
         on_move(touch, event);
+        return true;
     };
     
     listener->onTouchEnded = [=](Touch* touch, Event* event){
@@ -417,6 +418,7 @@ void AddOnMoveListener(Node* s, OnClickLocationF on_start, OnMoveF on_move, OnCl
         return true;
     };
     
+    listener->setSwallowTouches(true);
     s->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, s);
 }
 

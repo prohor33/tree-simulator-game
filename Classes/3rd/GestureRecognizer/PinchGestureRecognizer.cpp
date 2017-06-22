@@ -9,14 +9,26 @@ bool PinchGestureRecognizer::init() {
 }
 
 bool PinchGestureRecognizer::onTouchBegan(Touch * pTouch, Event * pEvent) {
-    if (isRecognizing || !isPositionBetweenBounds(pTouch->getLocation())) {
+    if (!isPositionBetweenBounds(pTouch->getLocation())) {
         return false;
     }
     
+    touches.erase(std::remove_if(touches.begin(), touches.end(), [] (Touch* t) {
+        if (t->getReferenceCount() <= 1) {
+            t->release();
+            return true;
+        }
+        return false;
+    }), touches.end());
+    
+    if (touches.size() >= 2)
+        return false;
+    
+    pTouch->retain();
     touches.push_back(pTouch);
     
     //start recognizing after that 2 fingers are touching
-    if (touches.size() == 2) {
+    if (touches.size() >= 2) {
         isRecognizing = true;
     }
     
@@ -24,7 +36,7 @@ bool PinchGestureRecognizer::onTouchBegan(Touch * pTouch, Event * pEvent) {
 }
 
 void PinchGestureRecognizer::onTouchMoved(Touch * pTouch, Event * pEvent) {
-    if (!isRecognizing) {
+    if (!isRecognizing || touches.size() < 2) {
         return;
     }
     
@@ -70,9 +82,16 @@ void PinchGestureRecognizer::onTouchMoved(Touch * pTouch, Event * pEvent) {
 }
 
 void PinchGestureRecognizer::onTouchEnded(Touch * pTouch, Event * pEvent) {
-    isRecognizing = false;
-    lastDistance = -1.f;
-    touches.pop_back();
+    
+    touches.erase(std::remove_if(touches.begin(), touches.end(), [=] (Touch* t) {
+        return t == pTouch;
+    }), touches.end());
+    
+    if (touches.size() < 2) {
+        isRecognizing = false;
+        lastDistance = -1.f;
+    }
+    
     //touches(pTouch);
     
     //cancel touch over other views if necessary
