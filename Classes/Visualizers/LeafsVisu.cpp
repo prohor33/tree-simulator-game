@@ -4,9 +4,14 @@
 #include "Utils.h"
 using namespace cocos2d::ui;
 
-LeafsVisu* LeafsVisu::CreateLayer(const TreePtr& tree, Node* top_level_gui, TreeVisu* tree_visu) {
+LeafsVisu* LeafsVisu::CreateLayer(const TreePtr& tree, Node* scale_node, Node* gui_node, Node* top_level_gui, TreeVisu* tree_visu) {
     LeafsVisu* layer = LeafsVisu::create();
-    layer->Build(tree, top_level_gui, tree_visu);
+    layer->tree_ = tree;
+    layer->top_level_gui_ = top_level_gui;
+    layer->scale_node_ = scale_node;
+    layer->gui_node_ = gui_node;
+    layer->tree_visu_ = tree_visu;
+    layer->Build();
     return layer;
 }
 
@@ -18,10 +23,7 @@ bool LeafsVisu::init() {
     return true;
 }
 
-void LeafsVisu::Build(const TreePtr& tree, Node* top_level_gui, TreeVisu* tree_visu) {
-	tree_ = tree;
-    top_level_gui_ = top_level_gui;
-    tree_visu_ = tree_visu;
+void LeafsVisu::Build() {
     this->scheduleUpdate();
     
     leafs_ = Node::create();
@@ -41,7 +43,7 @@ void LeafsVisu::DrawLeafs(float delta) {
     }
     while (leafs_->getChildrenCount() < local_leafs.size()) {
         // добавляем недостающие
-        auto l = visu_utils::LoadSpriteByWidth(0.1f, "tree_elements/leaf.png");
+        auto l = visu_utils::LoadSpriteByWidth(0.05f, "tree_elements/leaf.png");
         l->setAnchorPoint(Vec2());
         const float max_start_angle = 45.f;
         l->setRotation(max_start_angle * s_utils::rand_m1_1());

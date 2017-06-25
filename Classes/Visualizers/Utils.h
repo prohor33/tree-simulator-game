@@ -20,15 +20,17 @@ void MoveX(cocos2d::Node* s, float x);
 void MoveY(cocos2d::Node* s, float y);
 void MoveXPxl(cocos2d::Node* s, float x);
 void MoveYPxl(cocos2d::Node* s, float y);
+void MovePxl(Node* s, Vec2 delta);
 void TransferToParent(cocos2d::Node* old_parent, cocos2d::Node* new_parent, cocos2d::Node* target);
-cocos2d::Vec2 GetPositionInParent(cocos2d::Node* old_parent, cocos2d::Node* new_parent, cocos2d::Vec2 p);
-cocos2d::Vec2 GetPositionInParent(cocos2d::Node* old_parent, cocos2d::Vec2 new_parent_world_p, cocos2d::Vec2 p);
+cocos2d::Vec2 GetPositionInOtherNode(Node* other_node, Node* this_parent, cocos2d::Vec2 p);
+cocos2d::Vec2 GetPositionInOtherNode(Node* other_node, Node* node);
 cocos2d::Vec2 GetPositionInParent(cocos2d::Vec2 old_parent_world_p, cocos2d::Node* new_parent, cocos2d::Vec2 p);
 void RepeatSpriteToWidth(cocos2d::Sprite* s, float width);
 void RepeatSpriteToHeight(cocos2d::Sprite* s, float height);
 void MoveToXCenter(cocos2d::Node* s, float x);
 void MoveToYCenter(cocos2d::Node* s, float y);
 void MoveToCenter(cocos2d::Node* s, float x, float y);
+void MoveToPosInOtherNode(Node* n, Node* other_node, Vec2 p);
 void AddDebugPositionLogger(cocos2d::Sprite* s);
 void AddOnClickListener(cocos2d::Node* s, OnClickF on_click, double on_touch_coef = 1.f, OnClickLocationF on_click_location = nullptr);
 void AddOnClickListener(cocos2d::ui::Button* s, OnClickButtonF on_click, double on_touch_coef = 1.f);
@@ -36,6 +38,8 @@ void AddOnMoveListener(Node* s, OnClickLocationF on_start, OnMoveF on_move, OnCl
 float GetScreenRatio();
 void PositionInParent(cocos2d::Node* n, cocos2d::Node* parent, cocos2d::Vec2 p);
 void AdditionalScale(cocos2d::Node* s, float scale);
+float ScreenW(float width);
+float ScreenH(float height);
 
 }   // visu_utils
 

@@ -5,7 +5,7 @@
 class MeadowVisu : public Layer {
 public:
     //static Layer* CreateLayer(const TreeInterface& tree);
-	static Layer* CreateLayer(const ResourcesPtr& resource, const TreePtr& tree);
+	static MeadowVisu* CreateLayer(const ResourcesPtr& resource, const TreePtr& tree);
     virtual bool init() override;
     CREATE_FUNC(MeadowVisu);
     

@@ -10,8 +10,10 @@ namespace {
     const Color4F branch_color = Color4F(Color3B(169, 113, 0));
 }
 
-Layer* TreeVisu::CreateLayer(const TreePtr& tree) {
+TreeVisu* TreeVisu::CreateLayer(const TreePtr& tree, Node* scale_node, Node* gui_node) {
     TreeVisu* layer = TreeVisu::create();
+    layer->scale_node_ = scale_node;
+    layer->gui_node_ = gui_node;
     layer->Build(tree);
     return layer;
 }
@@ -31,22 +33,19 @@ void TreeVisu::Build(const TreePtr& tree) {
     
     top_level_gui_ = Node::create();
     
-    leafs_visu_ = LeafsVisu::CreateLayer(tree_, top_level_gui_, this);
+    leafs_visu_ = LeafsVisu::CreateLayer(tree_, scale_node_, gui_node_, top_level_gui_, this);
     addChild(leafs_visu_);
     
     tree_root_ = Node::create();
     addChild(tree_root_);
 
-    branches_visu_ = BranchesVisu::CreateLayer(tree_, top_level_gui_, this);
+    branches_visu_ = BranchesVisu::CreateLayer(tree_, scale_node_, gui_node_, top_level_gui_, this);
     addChild(branches_visu_);
     
     tree_root_buttons_ = Node::create();
     addChild(tree_root_buttons_);
     
-    gui_root_ = Node::create();
-    addChild(gui_root_);
-    
-    gui_root_->addChild(top_level_gui_);
+    gui_node_->addChild(top_level_gui_);
     
     BuildTreeRoot();
     
@@ -90,6 +89,11 @@ void TreeVisu::AddLeaf(int parent_id) {
     leafs_visu_->AddLeaf(parent_id);
 }
 
+// увеличение/сдвиг
+void TreeVisu::OnScaleOrMove() {
+    // чистим временные диалоге при перемещении
+    top_level_gui_->removeAllChildren();
+}
 
 
 

@@ -6,11 +6,17 @@ using namespace cocos2d::ui;
 
 namespace {
     const Color4F branch_color = Color4F(Color3B(169, 113, 0));
+    const float grow_points_size = 0.05f;
 }
 
-BranchesVisu* BranchesVisu::CreateLayer(const TreePtr& tree, Node* top_level_gui, TreeVisu* tree_visu) {
+BranchesVisu* BranchesVisu::CreateLayer(const TreePtr& tree, Node* scale_node, Node* gui_node, Node* top_level_gui, TreeVisu* tree_visu) {
     BranchesVisu* layer = BranchesVisu::create();
-    layer->Build(tree, top_level_gui, tree_visu);
+    layer->scale_node_ = scale_node;
+    layer->gui_node_ = gui_node;
+    layer->top_level_gui_ = top_level_gui;
+    layer->tree_visu_ = tree_visu;
+    layer->tree_ = tree;
+    layer->Build();
     return layer;
 }
 
@@ -18,24 +24,25 @@ bool BranchesVisu::init() {
     if (!Layer::init())
         return false;
     
+    new_branch_mover_src_ = nullptr;
     this->scheduleUpdate();
     return true;
 }
 
-void BranchesVisu::Build(const TreePtr& tree, Node* top_level_gui, TreeVisu* tree_visu) {
-	tree_ = tree;
-    top_level_gui_ = top_level_gui;
-    tree_visu_ = tree_visu;
+void BranchesVisu::Build() {	
     this->scheduleUpdate();
     
     draw_node_ = DrawNode::create();
     addChild(draw_node_);
     
-    gui_root_ = Node::create();
-    addChild(gui_root_);
+    select_branch_elements_ = Node::create();
+    gui_node_->addChild(select_branch_elements_);
     
     grow_buttons_ = Node::create();
-    gui_root_->addChild(grow_buttons_);
+    select_branch_elements_->addChild(grow_buttons_);
+    
+    new_branch_mover_ = Node::create();
+    select_branch_elements_->addChild(new_branch_mover_);
 }
 
 void BranchesVisu::update(float delta) {
@@ -72,7 +79,7 @@ void BranchesVisu::DrawGrowButtons(float delta) {
     while (grow_buttons_->getChildrenCount() < grow_points.size()) {
         // добавляем недостающие
         auto btn = Button::create("tree_icons/plus.png");
-        visu_utils::ChangeSizeByWidth(btn, 0.05f);
+        visu_utils::ChangeSizeByWidth(btn, grow_points_size);
         btn->setTouchEnabled(true);
         
         size_t btn_ind = grow_buttons_->getChildrenCount();
@@ -88,7 +95,7 @@ void BranchesVisu::DrawGrowButtons(float delta) {
     for (auto& p : grow_points) {
         CC_ASSERT(i < grow_buttons_->getChildren().size());
         auto gb = grow_buttons_->getChildren().at(i);
-        gb->setPosition(p.first);
+        visu_utils::MoveToPosInOtherNode(gb, this, p.first);
         grow_buttons_ids_[i] = p.second;
         i++;
     }
@@ -97,8 +104,10 @@ void BranchesVisu::DrawGrowButtons(float delta) {
 void BranchesVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const Size& src_size) {
     top_level_gui_->removeAllChildren();
     
-    const float shift_vert = 10.f;
-    const float padding = 5.f;
+    const float dlg_size = 0.8f;
+    const float btn_size = dlg_size * 0.07f;
+    const float shift_vert = visu_utils::ScreenW(0.03f) * dlg_size;
+    const float padding = visu_utils::ScreenW(0.015f) * dlg_size;
     
     DrawNode* back_node = DrawNode::create();
     top_level_gui_->addChild(back_node);
@@ -106,11 +115,12 @@ void BranchesVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const
     
     {
         auto btn = Button::create("tree_icons/branch.png");
+        visu_utils::ChangeSizeByHeight(btn, btn_size);
         btn->setTouchEnabled(true);
         Vec2 btn_p = src_pos + Vec2(0.f, src_size.height / 2.f);
-        btn_p += Vec2(padding, shift_vert) + btn->getContentSize() / 2.f;
+        btn_p += Vec2(padding, shift_vert) + btn->getBoundingBox().size / 2.f;
         btn->setPosition(btn_p);
-        back_dest = btn_p + btn->getContentSize() / 2.f  + Vec2(padding, padding);
+        back_dest = btn_p + btn->getBoundingBox().size / 2.f  + Vec2(padding, padding);
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
             // новая ветка
@@ -124,11 +134,12 @@ void BranchesVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const
     
     {
         auto btn = Button::create("tree_icons/leaf.png");
+        visu_utils::ChangeSizeByHeight(btn, btn_size);
         btn->setTouchEnabled(true);
         Vec2 btn_p = src_pos + Vec2(0.f, src_size.height / 2.f);
-        btn_p += Vec2(-padding - btn->getContentSize().width / 2.f, shift_vert + btn->getContentSize().height / 2.f);
+        btn_p += Vec2(-padding - btn->getBoundingBox().size.width / 2.f, shift_vert + btn->getBoundingBox().size.height / 2.f);
         btn->setPosition(btn_p);
-        back_origin = btn_p - btn->getContentSize() / 2.f - Vec2(padding, padding);
+        back_origin = btn_p - btn->getBoundingBox().size / 2.f - Vec2(padding, padding);
         
         visu_utils::AddOnClickListener(btn, [=] (Button* node) {
             // клик на лист
@@ -145,15 +156,18 @@ void BranchesVisu::GrowButtonOnClick(size_t button_i, const Vec2& src_pos, const
 
 // вызывается при клике на иконку ветку добавления
 void BranchesVisu::OnStartAddingBranch(int parent_id, Button* node) {
-    // добавляем еще одну временную кнопку сверху
-    
-    auto btn = Button::create("tree_icons/plus.png");
+   
+    auto btn = Button::create("tree_icons/move.png");
+    visu_utils::ChangeSizeByWidth(btn, 0.1f);
     btn->setTouchEnabled(true);
     btn->setPosition(node->getPosition());
-    top_level_gui_->addChild(btn);
+    new_branch_mover_->removeAllChildren();
+    new_branch_mover_->addChild(btn);
     btn->getEventDispatcher()->removeEventListenersForTarget(btn);
+    new_branch_mover_src_ = node;
+    new_branch_mover_delta_ = Vec2();
     
-    auto btn_pos = node->getPosition();
+    auto btn_pos = visu_utils::GetPositionInOtherNode(this, node);
     
     visu_utils::AddOnMoveListener(btn,
     [this, btn_pos] (Node* n, Point p) {
@@ -162,10 +176,13 @@ void BranchesVisu::OnStartAddingBranch(int parent_id, Button* node) {
         
     }, [=] (cocos2d::Touch* touch, cocos2d::Event* event) {
         // on move
-        if (this->tmp_draw_branch_.size() == 2)
-            this->tmp_draw_branch_[1] += touch->getDelta();
+        if (this->tmp_draw_branch_.size() == 2) {
+            auto delta = touch->getDelta() / scale_node_->getScale();
+            this->tmp_draw_branch_[1] += delta;
+            new_branch_mover_delta_ += touch->getDelta();
+        }
     }, [=] (Node* n, Point p) {
-        top_level_gui_->removeAllChildren();
+        new_branch_mover_->removeAllChildren();
         if (this->tmp_draw_branch_.size() == 2) {
             int id;
             tree_->AddBranch(parent_id, this->tmp_draw_branch_[1] - this->tmp_draw_branch_[0], id);
@@ -178,5 +195,9 @@ void BranchesVisu::OnStartAddingBranch(int parent_id, Button* node) {
 void BranchesVisu::DrawTemporaryElements(float delta) {
     if (tmp_draw_branch_.size() == 2) {
         draw_node_->drawSegment(tmp_draw_branch_[0], tmp_draw_branch_[1], 4, branch_color);
+    }
+    if (new_branch_mover_->getChildrenCount() > 0 && new_branch_mover_src_) {
+        // обновляем положение мувера при перемещении ноды
+        new_branch_mover_->getChildren().at(0)->setPosition(new_branch_mover_src_->getPosition() + new_branch_mover_delta_);
     }
 }

@@ -44,7 +44,6 @@ void ChangeSizeByWidth(Node* s, float w) {
     s->setScale(coef);
 }
 
-
 Sprite* LoadSpriteByWidth(float w, const char* file, Vec2 p) {
     Size visible_size = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -160,6 +159,10 @@ void MoveYPxl(Node* s, float y) {
     p.y += y;
     s->setPosition(p);
 }
+    
+void MovePxl(Node* s, Vec2 delta) {
+    s->setPosition(s->getPosition() + delta);
+}
 
 void MoveToXCenter(Node* s, float x) {
     Size visible_size = Director::getInstance()->getVisibleSize();
@@ -179,6 +182,10 @@ void MoveToCenter(Node* s, float x, float y) {
     MoveToXCenter(s, x);
     MoveToYCenter(s, y);
 }
+    
+void MoveToPosInOtherNode(Node* n, Node* other_node, Vec2 p) {
+    n->setPosition(GetPositionInOtherNode(n->getParent(), other_node, p));
+}
 
 void TransferToParent(Node* old_parent, Node* new_parent, Node* target) {
     auto p0 = old_parent->convertToWorldSpace(target->getPosition());
@@ -190,10 +197,16 @@ void TransferToParent(Node* old_parent, Node* new_parent, Node* target) {
     target->setPosition(p0);
 }
 
-Vec2 GetPositionInParent(Node* old_parent, Node* new_parent, Vec2 p) {
+Vec2 GetPositionInOtherNode(Node* other_node, Node* this_parent, Vec2 p) {
     // здесь учитываются все преобразования, включая растяжени и тп
-    auto p0 = old_parent->convertToWorldSpace(p);
-    return new_parent->convertToNodeSpace(p0);
+    auto p0 = this_parent->convertToWorldSpace(p);
+    return other_node->convertToNodeSpace(p0);
+}
+    
+Vec2 GetPositionInOtherNode(Node* other_node, Node* node) {
+    // здесь учитываются все преобразования, включая растяжени и тп
+    auto p0 = node->getParent()->convertToWorldSpace(node->getPosition());
+    return other_node->convertToNodeSpace(p0);
 }
 
 Vec2 GetPositionInParent(Node* old_parent, Vec2 new_parent_world_p, Vec2 p) {
@@ -436,6 +449,14 @@ void AdditionalScale(Node* s, float scale) {
     s->setScale(s->getScale() * scale);
 }
 
+float ScreenW(float width) {
+    Size visible_size = Director::getInstance()->getVisibleSize();
+    return visible_size.width * width;
+}
+float ScreenH(float height) {
+    Size visible_size = Director::getInstance()->getVisibleSize();
+    return visible_size.height * height;
+}
     
 } // visu_utils
 

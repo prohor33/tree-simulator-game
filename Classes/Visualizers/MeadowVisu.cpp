@@ -5,7 +5,7 @@
 using namespace cocos2d::ui;
 
 
-Layer* MeadowVisu::CreateLayer(const ResourcesPtr& resource, const TreePtr& tree) {
+MeadowVisu* MeadowVisu::CreateLayer(const ResourcesPtr& resource, const TreePtr& tree) {
     MeadowVisu* layer = MeadowVisu::create();
     layer->Build(resource, tree);
     return layer;

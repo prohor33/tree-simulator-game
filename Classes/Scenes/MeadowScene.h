@@ -4,6 +4,8 @@
 
 USING_NS_CC;
 
+class TreeVisu;
+
 // Сцена поляны
 class MeadowScene : public Scene {
 public:
@@ -23,6 +25,13 @@ private:
     TreePtr tree_int_;
     ResourcesPtr res_int_;
     Node* background_;      // задник, недвижим
-    Node* middleground_;    // все остальное, может быть увеличено
+    
+    // middleground ==========
+    Node* middleground_;    // родительская нода всего, что в уровне
+    Node* scale_node_;      // нода, которая все скейлит
+    Node* gui_node_;        // кнопочки уровня
+    
     Node* foreground_;      // передник, недвижим
+    
+    TreeVisu* tree_visu_;
 };

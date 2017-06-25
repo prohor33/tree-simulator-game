@@ -25,13 +25,17 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     tree_int_ = tree_int;
     res_int_ = res_int;
     
+    scale_node_ = Node::create();
+    
+    // добавляем хэндлеры увеличения и перемещения
+    // добавляется прямо к сцене, чтобы хэнлдить весь экран целиком
+    // должна быть добавлена раньше всех
+    AddScaling(scale_node_);
+    
     background_ = Node::create();
     middleground_ = Node::create();
     foreground_ = Node::create();
     addChild(background_);
-    
-    // добавляем хэндлеры увеличения и перемещения
-    AddScaling(middleground_);
     
     addChild(middleground_);
     addChild(foreground_);
@@ -65,13 +69,17 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     // add the label as a child to this layer
     foreground_->addChild(label);
     
+    middleground_->addChild(scale_node_);
+    
+    gui_node_ = Node::create();
+    middleground_->addChild(gui_node_);
     
     Size w_size = Director::getInstance()->getVisibleSize();
     Vec2 w_origin = Director::getInstance()->getVisibleOrigin();
     
     // трава
     DrawNode* draw_node = DrawNode::create();
-    middleground_->addChild(draw_node);
+    scale_node_->addChild(draw_node);
     const float grass_h = w_size.height / 10.f;
     Size grass_size(w_size.width, grass_h);
     draw_node->drawSolidRect(w_origin, w_origin + grass_size, field_color);
@@ -80,12 +88,12 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     Size sky_size(w_size.width, w_size.height - grass_h);
     Vec2 sky_origin = w_origin + Vec2(0.f, grass_h);
     draw_node->drawSolidRect(sky_origin, sky_origin + sky_size, sky_color);
-
+    
     Vec2 tree_p = w_origin + Vec2(w_size.width / 2.f, grass_h);
     
-    auto tree_visu = TreeVisu::CreateLayer(tree_int);
-    tree_visu->setPosition(tree_p);
-    middleground_->addChild(tree_visu);
+    tree_visu_ = TreeVisu::CreateLayer(tree_int, scale_node_, gui_node_);
+    tree_visu_->setPosition(tree_p);
+    scale_node_->addChild(tree_visu_);
     
     // ресурсы + прочая информация
     auto meadow_visu = MeadowVisu::CreateLayer(res_int, tree_int);
@@ -131,9 +139,12 @@ void MeadowScene::MenuCloseCallback(Ref* pSender) {
 
 void MeadowScene::AddScaling(Node* scale_node) {
     PinchGestureRecognizer * pinch_rec = PinchGestureRecognizer::create();
-    pinch_rec->setTarget([scale_node](CCGesture* gesture) {
+    pinch_rec->setTarget([this, scale_node](CCGesture* gesture) {
         CCPinch* pinch = (CCPinch*) gesture;
         assert(!isnan(pinch->coef));
+        
+        tree_visu_->OnScaleOrMove();
+        
         if (pinch->coef < 1.f && (scale_node->getScale() * pinch->coef <= 1.f)) {
             scale_node->setScale(1.f);
             scale_node->setPosition(Vec2());
@@ -147,7 +158,10 @@ void MeadowScene::AddScaling(Node* scale_node) {
     
     
     PanGestureRecognizer* pan_rec = PanGestureRecognizer::create();
-    pan_rec->setTarget([scale_node](CCGesture* gesture) {
+    pan_rec->setTarget([this, scale_node](CCGesture* gesture) {
+        
+        tree_visu_->OnScaleOrMove();
+        
         CCPan* pan = (CCPan*) gesture;
         scale_node->setPosition(scale_node->getPosition() + pan->delta);
     });
