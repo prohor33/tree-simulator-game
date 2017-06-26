@@ -77,28 +77,36 @@ void MeadowScene::Build(const TreePtr& tree_int, const ResourcesPtr& res_int) {
     Size w_size = Director::getInstance()->getVisibleSize();
     Vec2 w_origin = Director::getInstance()->getVisibleOrigin();
     
+    // попытка задника, который движется
+//    scale_node_->addChild(visu_utils::LoadSpriteByWidth(2.f, "tree_back.png"));
+    
     // трава
     DrawNode* draw_node = DrawNode::create();
     scale_node_->addChild(draw_node);
     const float grass_h = w_size.height / 10.f;
     Size grass_size(w_size.width, grass_h);
-    draw_node->drawSolidRect(w_origin, w_origin + grass_size, field_color);
+    const float grass_size_hidden = visu_utils::ScreenW(20.f);
+    draw_node->drawSolidRect(w_origin - Vec2(grass_size_hidden, grass_size_hidden),
+                             w_origin + grass_size + Vec2(grass_size_hidden, 0.f), field_color);
     
     // небо
-    Size sky_size(w_size.width, w_size.height - grass_h);
-    Vec2 sky_origin = w_origin + Vec2(0.f, grass_h);
+    Size sky_size(w_size.width + 2 * grass_size_hidden, w_size.height - grass_h + grass_size_hidden);
+    Vec2 sky_origin = w_origin + Vec2(0.f, grass_h) - Vec2(grass_size_hidden, 0.f);
     draw_node->drawSolidRect(sky_origin, sky_origin + sky_size, sky_color);
     
     Vec2 tree_p = w_origin + Vec2(w_size.width / 2.f, grass_h);
     
     tree_visu_ = TreeVisu::CreateLayer(tree_int, scale_node_, gui_node_);
     tree_visu_->setPosition(tree_p);
+    tree_visu_->Build();
     scale_node_->addChild(tree_visu_);
     
     // ресурсы + прочая информация
     auto meadow_visu = MeadowVisu::CreateLayer(res_int, tree_int);
     foreground_->addChild(meadow_visu);
 
+    // попытка неподвижного задника
+//    background_->addChild(visu_utils::LoadSpriteFullScreen("tree_back.png"));
     
     const float tree_update_interval = 0.1;
     schedule(schedule_selector(MeadowScene::UpdateTree), tree_update_interval);
@@ -145,11 +153,11 @@ void MeadowScene::AddScaling(Node* scale_node) {
         
         tree_visu_->OnScaleOrMove();
         
-        if (pinch->coef < 1.f && (scale_node->getScale() * pinch->coef <= 1.f)) {
-            scale_node->setScale(1.f);
-            scale_node->setPosition(Vec2());
-            return;
-        }
+//        if (pinch->coef < 1.f && (scale_node->getScale() * pinch->coef <= 1.f)) {
+//            scale_node->setScale(1.f);
+//            scale_node->setPosition(Vec2());
+//            return;
+//        }
         
         scale_node->setPosition(scale_node->getPosition() - (pinch->position - scale_node->getPosition()) * (pinch->coef - 1.f));
         visu_utils::AdditionalScale(scale_node, pinch->coef);

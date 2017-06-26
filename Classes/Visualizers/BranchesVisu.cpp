@@ -6,7 +6,7 @@ using namespace cocos2d::ui;
 
 namespace {
     const Color4F branch_color = Color4F(Color3B(169, 113, 0));
-    const float grow_points_size = 0.05f;
+    const float grow_points_size = 0.08f;
 }
 
 BranchesVisu* BranchesVisu::CreateLayer(const TreePtr& tree, Node* scale_node, Node* gui_node, Node* top_level_gui, TreeVisu* tree_visu) {

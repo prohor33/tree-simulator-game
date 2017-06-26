@@ -12,12 +12,13 @@ public:
     virtual bool init() override;
     CREATE_FUNC(TreeVisu);
     
+    void Build();
+    
     void update(float) override;
     void AddLeaf(int parent_id);
     void OnScaleOrMove();   // увеличение/сдвиг
     
 private:
-	void Build(const TreePtr& tree);
     void BuildTreeRoot();
 
     void DrawTreeRoot(float delta);

@@ -85,9 +85,10 @@ void ResourceConsVisu::ShowResCons(int id, TreeResourceType res_type, double val
     str = std::string(value > 0 ? "+" : "") + str;
     const float font_size = res_type == TreeResourceType::SunEnergy ? 11.f : 25.f;
     auto l = Label::createWithSystemFont(str, "fonts/arial.ttf", font_size, Size::ZERO, TextHAlignment::CENTER);
-    l->setPosition((el.start_point + el.end_point) / 2.f);
-    l->setColor(res_colors[res_type]);
+    Vec2 p = (el.start_point + el.end_point) / 2.f;
     addChild(l);
+    visu_utils::MoveToPosInOtherNode(l, tree_visu_, p);
+    l->setColor(res_colors[res_type]);
     
     auto after_move = [=] () {
         this->removeChild(l);

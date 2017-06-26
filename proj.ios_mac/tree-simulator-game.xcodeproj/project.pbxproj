@@ -54,6 +54,7 @@
 		521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6219F0C34300D177D7 /* Default-667h@2x.png */; };
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		54661DB51F005D8D00B1AEC0 /* tree_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 54661DB41F005D8D00B1AEC0 /* tree_back.png */; };
 		54777F6E1EB13C7E000887FD /* MeadowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54777F691EB13C7E000887FD /* MeadowScene.cpp */; };
 		54777F6F1EB13C7E000887FD /* MeadowScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54777F691EB13C7E000887FD /* MeadowScene.cpp */; };
 		54777F701EB13C7E000887FD /* TreeVisu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 54777F6C1EB13C7E000887FD /* TreeVisu.cpp */; };
@@ -192,6 +193,7 @@
 		521A8E6219F0C34300D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		54661DB41F005D8D00B1AEC0 /* tree_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tree_back.png; sourceTree = "<group>"; };
 		54777F691EB13C7E000887FD /* MeadowScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeadowScene.cpp; sourceTree = "<group>"; };
 		54777F6A1EB13C7E000887FD /* MeadowScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeadowScene.h; sourceTree = "<group>"; };
 		54777F6C1EB13C7E000887FD /* TreeVisu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TreeVisu.cpp; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				54661DB41F005D8D00B1AEC0 /* tree_back.png */,
 				54C82ED11EB7897A00193482 /* tree_elements */,
 				54C82ECE1EB545FA00193482 /* tree_icons */,
 				54C82ECB1EB545DF00193482 /* fonts */,
@@ -632,6 +635,7 @@
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
+				54661DB51F005D8D00B1AEC0 /* tree_back.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
