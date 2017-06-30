@@ -66,8 +66,8 @@ void BranchesVisu::DrawBranches(float delta) {
     }
     
     // соберем последовательности контрольных точек
-    std::vector<PointArray*> points_secs;
-    points_secs.push_back(PointArray::create(0));
+    std::vector<std::vector<Vec2>> points_secs;
+    points_secs.push_back({});
     bool last_was_before = true;
     auto iter_func = [&] (const TreeNodePtr& n_p, bool before_node) {
         const auto& n = n_p->GetInternals();
@@ -77,7 +77,7 @@ void BranchesVisu::DrawBranches(float delta) {
         if (last_was_before && !before_node) {
             // дошли до конца ветки начинаем откатываться назад
             // надо добавить новую последовательность
-            points_secs.push_back(PointArray::create(0));
+            points_secs.push_back({});
             last_was_before = false;
         }
         
@@ -107,10 +107,10 @@ void BranchesVisu::DrawBranches(float delta) {
         
         if (before_node) {
             for (auto& p : right_edge_v)
-                points_secs.back()->addControlPoint(p);
+                points_secs.back().push_back(p);
         } else {
             for (auto it = left_edge_v.rbegin(); it != left_edge_v.rend(); ++it)
-                points_secs.back()->addControlPoint(*it);
+                points_secs.back().push_back(*it);
         }
         
         if (before_node)
@@ -119,9 +119,13 @@ void BranchesVisu::DrawBranches(float delta) {
     using namespace std::placeholders;
     tree_->DFSIteration(std::bind(iter_func, _1, true), std::bind(iter_func, _1, false));
     
-    draw_node_->setLineWidth(8);
+    draw_node_->setLineWidth(20);
     for (auto& sec : points_secs) {
-        draw_node_->drawCardinalSpline(sec, 0.01f, 1000, Color4F::RED);
+        const float contrl_coef = 0.2f;
+        for (size_t i = 1; i + 2 < sec.size(); i++) {
+            draw_node_->drawCubicBezier(sec[i], sec[i] + contrl_coef * (sec[i] - sec[i-1]),
+                                        sec[i+1] + contrl_coef * (sec[i+1] - sec[i+2]), sec[i+1], 1000, Color4F::RED);
+        }
     }
 }
 
