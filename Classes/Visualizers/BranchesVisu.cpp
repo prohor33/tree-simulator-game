@@ -65,25 +65,43 @@ void BranchesVisu::DrawBranches(float delta) {
         draw_node_->drawSegment(b.start_point, b.end_point, b.width * width_coef / 2.f, branch_color);
     }
     
-    // соберем последовательности контрольных точек
-    std::vector<std::vector<Vec2>> points_secs;
-    points_secs.push_back({});
-    bool last_was_before = true;
-    auto iter_func = [&] (const TreeNodePtr& n_p, bool before_node) {
+    // список пар <ветка, флаг направления обхода>
+    std::vector<std::pair<TreeNodePtr, bool>> nodes_sec;
+    bool last_was_same_direction = true;
+    auto iter_func = [&] (const TreeNodePtr& n_p, bool same_direction) {
         const auto& n = n_p->GetInternals();
         if (n.type != Branch)
             return;
         
-        if (last_was_before && !before_node) {
+        if (last_was_same_direction && !same_direction) {
             // дошли до конца ветки начинаем откатываться назад
-            // надо добавить новую последовательность
-            points_secs.push_back({});
-            last_was_before = false;
+            last_was_same_direction = false;
         }
         
+        nodes_sec.push_back(std::make_pair(n_p, same_direction));
+        
+
+//        
+//        if (before_node) {
+//            for (auto& p : right_edge_v)
+//                points_secs.back().push_back(p);
+//        } else {
+//            for (auto it = left_edge_v.rbegin(); it != left_edge_v.rend(); ++it)
+//                points_secs.back().push_back(*it);
+//        }
+        
+        if (same_direction)
+            last_was_same_direction = true;
+    };
+    using namespace std::placeholders;
+    tree_->DFSIteration(std::bind(iter_func, _1, true), std::bind(iter_func, _1, false));
+    
+    auto get_node_edge = [&] (const TreeElement& n, bool same_dir, std::vector<Vec2>& edge_v) {
         Vec2 main_vec = n.end_point - n.start_point;
         if (main_vec.isZero())
-            return;
+            return false;
+        if (!same_dir)
+            main_vec.negate();
         
         auto perp = main_vec.getPerp();
         perp.normalize();
@@ -95,37 +113,58 @@ void BranchesVisu::DrawBranches(float delta) {
         
         Vec2 middle_p = (n.start_point + n.end_point) / 2.f;
         
-        std::vector<Vec2> left_edge_v, right_edge_v;
-        
-        left_edge_v.push_back(middle_p - part_v + perp);
-        left_edge_v.push_back(middle_p + perp);
-        left_edge_v.push_back(middle_p + part_v + perp);
-        
-        right_edge_v.push_back(middle_p - part_v - perp);
-        right_edge_v.push_back(middle_p - perp);
-        right_edge_v.push_back(middle_p + part_v - perp);
-        
-        if (before_node) {
-            for (auto& p : right_edge_v)
-                points_secs.back().push_back(p);
-        } else {
-            for (auto it = left_edge_v.rbegin(); it != left_edge_v.rend(); ++it)
-                points_secs.back().push_back(*it);
-        }
-        
-        if (before_node)
-            last_was_before = true;
+        edge_v.push_back(middle_p - part_v - perp);
+        edge_v.push_back(middle_p - perp);
+        edge_v.push_back(middle_p + part_v - perp);
+        return true;
     };
-    using namespace std::placeholders;
-    tree_->DFSIteration(std::bind(iter_func, _1, true), std::bind(iter_func, _1, false));
     
-    draw_node_->setLineWidth(20);
-    for (auto& sec : points_secs) {
-        const float contrl_coef = 0.2f;
-        for (size_t i = 1; i + 2 < sec.size(); i++) {
-            draw_node_->drawCubicBezier(sec[i], sec[i] + contrl_coef * (sec[i] - sec[i-1]),
-                                        sec[i+1] + contrl_coef * (sec[i+1] - sec[i+2]), sec[i+1], 1000, Color4F::RED);
+    draw_node_->setLineWidth(8);
+    
+    // рисуем границу дерева
+    for (size_t i = 0; i < nodes_sec.size(); i++) {
+        
+        auto& node_ptr = nodes_sec[i].first;
+        const auto& n = node_ptr->GetInternals();
+        bool same_dir = nodes_sec[i].second;
+        
+        std::vector<Vec2> edge_v;
+        if (!get_node_edge(n, same_dir, edge_v))
+            continue;
+        
+        if (i == 0) {
+            // правывй низ ствола
         }
+        
+        // рисуем середину
+        
+        if (i + 1 >= nodes_sec.size()) {
+            // левый низ ствола
+            
+            continue;
+        }
+        
+        
+        bool same_dir_next = nodes_sec[i + 1].second;
+        const auto& n_next = nodes_sec[i + 1].first->GetInternals();
+        
+        if (same_dir != same_dir_next && same_dir == true) {
+            // конец ветки
+            // TODO:
+            continue;
+        }
+        
+        // рисуем переход на следующую
+        
+        std::vector<Vec2> edge_v_next;
+        if (!get_node_edge(n_next, same_dir_next, edge_v_next))
+            continue;
+        
+        Vec2 control_p = Vec2::getIntersectPoint(edge_v[1], edge_v[2], edge_v_next[1], edge_v_next[0]);
+        if (control_p == Vec2::ZERO)
+            continue;
+        
+        draw_node_->drawQuadBezier(edge_v[2], control_p, edge_v_next[0], 100, Color4F::RED);
     }
 }
 
