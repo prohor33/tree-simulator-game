@@ -5,13 +5,14 @@
 
 const double new_branch_width = 1.0;
 // TODO: настроить точнее
-const double tree_grow_speed = 1 / 150.f;
+const double tree_grow_speed = 1 / 1500.f;
+
+using TreeNodePtr = std::shared_ptr<class TreeNode>;
+using NodeFunc = std::function<void(const TreeNodePtr&)>;
 
 // элемент дерева
 class TreeNode
 {
-public: 
-	typedef std::shared_ptr<TreeNode> TreeNodePtr;
 protected:
 	// откуда вырос элемент
 	TreeNode* parent;
@@ -34,6 +35,7 @@ public:
 	// достать элементы записи
 	TreeNode* GetParent() const { return parent; }
 	TreeNodePtr GetChild(int pos) const { return children.at(pos); }
+    const std::vector<TreeNodePtr>& GetChildren() const { return children; };
 	const TreeElement& GetInternals() const { return elem; }
 	TreeElement& GetInternals() { return elem; }
 
@@ -60,6 +62,7 @@ public:
     void GetElements(std::vector<int>& elems, TreePartType tp) const;
 	TreeElement& GetElementByID(int& id);
 	const TreeElement& GetElementByID(int& id) const;
+    void DFSIteration(const NodeFunc& before_node_f, const NodeFunc& after_node_f) const;
 
 	void GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const;
 
@@ -73,6 +76,8 @@ public:
 	double GetCurrentGlucoseCost(float dt);
 
 private:
+    void DFSIterationImpl(const TreeNodePtr& node, const NodeFunc& before_node_f, const NodeFunc& after_node_f) const;
+    
 	std::shared_ptr<TreeNode> root;
 	std::map<int, std::shared_ptr<TreeNode>> fast_navigation_map;	
 };
@@ -95,6 +100,7 @@ public:
 	void GetLeafs(std::vector<std::pair<Vec2, Vec2>>& leafs) const;
 	void GetRoot(double& current_length) const;
     void GetElements(std::vector<int>& elements) const;
+    void DFSIteration(const NodeFunc& before_node_f, const NodeFunc& after_node_f = nullptr) const;
 
 	void GetCurrentProduction(TreeResourceType t, double& val) const;
 	void GetCurrentConsumption(TreeResourceType t, double& val) const;

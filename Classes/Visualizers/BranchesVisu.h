@@ -22,6 +22,7 @@ private:
     void OnStartAddingBranch(int parent_id, cocos2d::ui::Button* node);
     // рисует ветки в процессе добавления
     void DrawTemporaryElements(float delta);
+    void BuildBranches();
     
     DrawNode* draw_node_;   // рисованное дерево
     Node* grow_buttons_;

@@ -20,6 +20,20 @@ void TreeNode::AddChild(const TreeNodePtr child)
 {
 	child->SetParent(this);
 	children.push_back(child);
+    
+    // после добавления нового ребенка сортируем их по углу к родителю в порялке против часовой
+    {
+        auto get_angle_to_parent = [] (const TreeElement& parent, const TreeElement& child) {
+            Vec2 v_p = parent.end_point - parent.start_point;
+            Vec2 v_c = child.end_point - child.start_point;
+            if (v_p.isZero() || v_c.isZero())
+                return 0.f;
+            return v_p.getAngle(v_c);
+        };
+        std::sort(children.begin(), children.end(), [&](const TreeNodePtr& a, const TreeNodePtr& b) {
+            return get_angle_to_parent(elem, a->elem) < get_angle_to_parent(elem, b->elem);
+        });
+    }
 }
 
 int TreeNode::GetChildrenAmount() const
@@ -230,6 +244,25 @@ double TreeInternal::GetCurrentGlucoseCost(float dt)
 	return res;
 }
 
+// проходим по всем элементам в глубину
+void TreeInternal::DFSIteration(const NodeFunc& before_node_f, const NodeFunc& after_node_f) const
+{
+    if (before_node_f)
+        before_node_f(root);
+    DFSIterationImpl(root, before_node_f, after_node_f);
+    if (after_node_f)
+        after_node_f(root);
+}
+void TreeInternal::DFSIterationImpl(const TreeNodePtr& node, const NodeFunc& before_node_f, const NodeFunc& after_node_f) const
+{
+    for (auto& c : node->GetChildren()) {
+        if (before_node_f)
+            before_node_f(c);
+        DFSIterationImpl(c, before_node_f, after_node_f);
+        if (after_node_f)
+            after_node_f(c);
+    }
+}
 ///////////////
 
 bool TreeInterface::MakeTree(const Vec2& start_point)
@@ -307,6 +340,11 @@ void TreeInterface::GetRoot(double& current_length) const
 void TreeInterface::GetElements(std::vector<int>& elements) const
 {
     tree->GetElements(elements, TreePartType::TypeUndefined);
+}
+
+void TreeInterface::DFSIteration(const NodeFunc& before_node_f, const NodeFunc& after_node_f) const
+{
+    tree->DFSIteration(before_node_f, after_node_f);
 }
 
 void TreeInterface::GetGrowPoints(std::vector<std::pair<Vec2, int>>& grow_points) const

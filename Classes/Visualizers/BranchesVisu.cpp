@@ -32,8 +32,7 @@ bool BranchesVisu::init() {
 void BranchesVisu::Build() {	
     this->scheduleUpdate();
     
-    draw_node_ = DrawNode::create();
-    addChild(draw_node_);
+    BuildBranches();
     
     select_branch_elements_ = Node::create();
     gui_node_->addChild(select_branch_elements_);
@@ -59,10 +58,70 @@ void BranchesVisu::DrawBranches(float delta) {
     std::vector<int> branches_id;
     tree_->GetBranches(branches_id);
     
+    const float width_coef = 8.f;
+    
     for (auto& id : branches_id) {        
         auto b = tree_->GetElementByID(id);
-        const float width_coef = 4.f;
-        draw_node_->drawSegment(b.start_point, b.end_point, b.width * width_coef, branch_color);
+        draw_node_->drawSegment(b.start_point, b.end_point, b.width * width_coef / 2.f, branch_color);
+    }
+    
+    // соберем последовательности контрольных точек
+    std::vector<PointArray*> points_secs;
+    points_secs.push_back(PointArray::create(0));
+    bool last_was_before = true;
+    auto iter_func = [&] (const TreeNodePtr& n_p, bool before_node) {
+        const auto& n = n_p->GetInternals();
+        if (n.type != Branch)
+            return;
+        
+        if (last_was_before && !before_node) {
+            // дошли до конца ветки начинаем откатываться назад
+            // надо добавить новую последовательность
+            points_secs.push_back(PointArray::create(0));
+            last_was_before = false;
+        }
+        
+        Vec2 main_vec = n.end_point - n.start_point;
+        if (main_vec.isZero())
+            return;
+        
+        auto perp = main_vec.getPerp();
+        perp.normalize();
+        perp.scale(n.width / 2.f * width_coef);
+        
+        Vec2 part_v = main_vec;
+        const float part = 0.6f;
+        part_v.scale(part / 2.f);
+        
+        Vec2 middle_p = (n.start_point + n.end_point) / 2.f;
+        
+        std::vector<Vec2> left_edge_v, right_edge_v;
+        
+        left_edge_v.push_back(middle_p - part_v + perp);
+        left_edge_v.push_back(middle_p + perp);
+        left_edge_v.push_back(middle_p + part_v + perp);
+        
+        right_edge_v.push_back(middle_p - part_v - perp);
+        right_edge_v.push_back(middle_p - perp);
+        right_edge_v.push_back(middle_p + part_v - perp);
+        
+        if (before_node) {
+            for (auto& p : right_edge_v)
+                points_secs.back()->addControlPoint(p);
+        } else {
+            for (auto it = left_edge_v.rbegin(); it != left_edge_v.rend(); ++it)
+                points_secs.back()->addControlPoint(*it);
+        }
+        
+        if (before_node)
+            last_was_before = true;
+    };
+    using namespace std::placeholders;
+    tree_->DFSIteration(std::bind(iter_func, _1, true), std::bind(iter_func, _1, false));
+    
+    draw_node_->setLineWidth(8);
+    for (auto& sec : points_secs) {
+        draw_node_->drawCardinalSpline(sec, 0.01f, 1000, Color4F::RED);
     }
 }
 
@@ -200,4 +259,11 @@ void BranchesVisu::DrawTemporaryElements(float delta) {
         // обновляем положение мувера при перемещении ноды
         new_branch_mover_->getChildren().at(0)->setPosition(new_branch_mover_src_->getPosition() + new_branch_mover_delta_);
     }
+}
+
+void BranchesVisu::BuildBranches() {
+    draw_node_ = DrawNode::create();
+    addChild(draw_node_);
+
+
 }
